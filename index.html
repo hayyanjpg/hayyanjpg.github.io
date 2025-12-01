@@ -3,45 +3,66 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Portofolio Hayyan - AI Engineer & Full-Stack Developer." />
-    <title>Hayyan | AI Engineer & Developer</title>
+    <meta name="description" content="Portofolio Hayyan. AI Engineer & Full-Stack Developer." />
+    <title>Hayyan - AI & Fullstack Portfolio</title>
 
-    <link rel="icon" type="image/png" href="assets/img/favicon.png">
-    <meta property="og:title" content="Hayyan - AI Engineer Portfolio" />
-    <meta property="og:description" content="Showcasing AI & Full-Stack Projects." />
-
+    <meta property="og:title" content="Hayyan - Portofolio" />
+    
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css" />
     <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <style>
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.8); padding-top: 50px; backdrop-filter: blur(5px); }
+        .modal-content { position: relative; background-color: #fefefe; margin: auto; padding: 0; border-radius: 12px; width: 90%; max-width: 900px; height: 85%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19); overflow: hidden; }
+        .modal-content iframe { width: 100%; height: 100%; border: none; }
+        .close-button { color: #fff; position: absolute; top: 10px; right: 25px; font-size: 40px; font-weight: bold; cursor: pointer; z-index: 1001; transition: 0.3s; }
+        .close-button:hover { color: #ccc; }
+        
+        /* Modern Certificate Grid */
+        .certificate__container { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        .certificate__card { background-color: var(--container-color); padding: 1.5rem; border-radius: 1rem; box-shadow: var(--box-shadow); text-align: center; transition: .3s; border: 1px solid var(--border-color); }
+        .certificate__card:hover { transform: translateY(-5px); box-shadow: var(--box-shadow-hover); }
+        .certificate__card img { width: 100%; border-radius: 0.5rem; margin-bottom: 1rem; object-fit: cover; aspect-ratio: 16/9; }
+        .certificate__card h3 { font-size: var(--normal-font-size); margin-bottom: 1rem; color: var(--title-color); }
+
+        /* Responsive Helpers */
+        @media screen and (max-width: 567px) {
+            .home__img { width: 200px; margin-bottom: 2rem; }
+            .contact__form { width: 100%; }
+        }
+    </style>
 </head>
 
 <body>
     <div id="loading">
-        <div class="loader"></div>
+        <div class="pl">
+            <div class="pl__dot"></div><div class="pl__dot"></div><div class="pl__dot"></div><div class="pl__dot"></div>
+            <div class="pl__dot"></div><div class="pl__dot"></div><div class="pl__dot"></div><div class="pl__dot"></div>
+            <div class="pl__dot"></div><div class="pl__dot"></div><div class="pl__dot"></div><div class="pl__dot"></div>
+            <div class="pl__text">Loading…</div>
+        </div>
     </div>
 
     <header class="header" id="header">
         <nav class="nav container">
-            <a href="#" class="nav__logo">Hayyan<span class="nav__logo-dot">.</span></a>
-            
+            <a href="#" class="nav__logo noSelect">Hayyan<span style="color:var(--first-color)">.AI</span></a>
             <div class="nav__menu" id="nav-menu">
                 <ul class="nav__list grid">
-                    <li class="nav__item"><a href="#home" class="nav__link active-link"><i class="uil uil-estate nav__icon"></i> Home</a></li>
-                    <li class="nav__item"><a href="#about" class="nav__link"><i class="uil uil-user nav__icon"></i> About</a></li>
-                    <li class="nav__item"><a href="#skills" class="nav__link"><i class="uil uil-file-alt nav__icon"></i> Skills</a></li>
-                    <li class="nav__item"><a href="#projects" class="nav__link"><i class="uil uil-scenery nav__icon"></i> Projects</a></li>
-                    <li class="nav__item"><a href="#contact" class="nav__link"><i class="uil uil-message nav__icon"></i> Contact</a></li>
+                    <li class="nav__item"><a href="#home" class="nav__link noSelect active-link"><i class="uil uil-estate nav__icon"></i> Home</a></li>
+                    <li class="nav__item"><a href="#about" class="nav__link noSelect"><i class="uil uil-user nav__icon"></i> About</a></li>
+                    <li class="nav__item"><a href="#skills" class="nav__link noSelect"><i class="uil uil-file-alt nav__icon"></i> Skills</a></li>
+                    <li class="nav__item"><a href="#projects" class="nav__link noSelect"><i class="uil uil-scenery nav__icon"></i> Projects</a></li>
+                    <li class="nav__item"><a href="#experience" class="nav__link noSelect"><i class="uil uil-briefcase-alt nav__icon"></i> Experience</a></li>
+                    <li class="nav__item"><a href="#certificates" class="nav__link noSelect"><i class="uil uil-award nav__icon"></i> Certificates</a></li>
+                    <li class="nav__item"><a href="#contact" class="nav__link noSelect"><i class="uil uil-message nav__icon"></i> Contact</a></li>
                 </ul>
-                <i class="uil uil-times nav__close" id="nav-close"></i>
+                <i class="uil uil-times nav__close noSelect" id="nav-close"></i>
             </div>
-
             <div class="nav__btns">
                 <i class="uil uil-moon change-theme" id="theme-button"></i>
-                <div class="nav__toggle" id="nav-toggle"><i class="uil uil-apps"></i></div>
+                <div class="nav__toggle noSelect" id="nav-toggle"><i class="uil uil-apps"></i></div>
             </div>
         </nav>
     </header>
@@ -53,222 +74,44 @@
                     <div class="home__social">
                         <a href="https://www.linkedin.com/in/hayyannashrulloh" target="_blank" class="home__social-icon"><i class="uil uil-linkedin-alt"></i></a>
                         <a href="https://github.com/hayyanjpg" target="_blank" class="home__social-icon"><i class="uil uil-github-alt"></i></a>
-                        <a href="#" target="_blank" class="home__social-icon"><i class="uil uil-instagram"></i></a>
+                        <a href="https://www.instagram.com/hayanashrulloh025" target="_blank" class="home__social-icon"><i class="uil uil-instagram"></i></a>
                     </div>
 
                     <div class="home__img">
-                        <svg class="home__blob" viewBox="0 0 200 187" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="home__blob" viewBox="0 0 200 187" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <mask id="mask0" mask-type="alpha">
-                                <path d="M190.312 36.4879C206.582 62.1187 201.309 102.826 182.328 134.186C163.346 165.547 130.807 187.559 100.226 186.353C69.6454 185.147 41.7223 162.224 25.7911 134.186C9.85991 106.147 1.65786 72.278 43.6669 9.35826C17.0587 15.0558 35.8257 -7.57878 63.2996 2.14318C90.7735 11.8651 119.54 19.3413 144.186 36.4879Z"/>
+                                <path d="M190.312 36.4879C206.582 62.1187 201.309 102.826 182.328 134.186C163.346 165.547 130.807 187.559 100.226 186.353C69.6454 185.147 41.7223 162.224 25.7911 134.186C9.85991 106.147 1.65786 72.278 43.6669 15.0558C17.0587 -7.57878 63.2996 2.14318 90.7735 11.8651 119.54 19.3413 144.186 36.4879Z"/>
                             </mask>
                             <g mask="url(#mask0)">
-                                <path d="M190.312 36.4879C206.582 62.1187 201.309 102.826 182.328 134.186C163.346 165.547 130.807 187.559 100.226 186.353C69.6454 185.147 41.7223 162.224 25.7911 134.186C9.85991 106.147 1.65786 72.278 43.6669 9.35826C17.0587 15.0558 35.8257 -7.57878 63.2996 2.14318C90.7735 11.8651 119.54 19.3413 144.186 36.4879Z"/>
+                                <path d="M190.312 36.4879C206.582 62.1187 201.309 102.826 182.328 134.186C163.346 165.547 130.807 187.559 100.226 186.353C69.6454 185.147 41.7223 162.224 25.7911 134.186C9.85991 106.147 1.65786 72.278 43.6669 15.0558C17.0587 -7.57878 63.2996 2.14318 90.7735 11.8651 119.54 19.3413 144.186 36.4879Z"/>
                                 <image class="home__blob-img" x="12" y="18" href="assets/image/profileimage1.png"/>
                             </g>
                         </svg>
                     </div>
 
                     <div class="home__data">
-                        <h1 class="home__title">Hi, I'm Hayyan</h1>
-                        <h3 class="home__subtitle">AI Engineer & Full-Stack Dev</h3>
-                        <p class="home__description">Building intelligent systems that bridge the gap between complex AI models and real-world applications.</p>
-                        <a href="#contact" class="button button--flex">
-                            Let's Talk <i class="uil uil-message button__icon"></i>
-                        </a>
+                        <h1 class="home__title">Hi, Saya Hayyan</h1>
+                        <h3 class="home__subtitle">AI Engineer & Full-Stack Developer</h3>
+                        <p class="home__description">Mahasiswa semester akhir yang menjembatani model AI kompleks dengan aplikasi web dunia nyata yang fungsional dan scalable.</p>
+                        <a href="#projects" class="button button--flex">Lihat Projek Terbaru <i class="uil uil-arrow-right button__icon"></i></a>
                     </div>
                 </div>
                 <div class="home__scroll">
                     <a href="#about" class="home__scroll-button button--flex">
                         <i class="uil uil-mouse-alt home__scroll-mouse"></i>
-                        <span class="home__scroll-name">Scroll down</span>
+                        <span class="home__scroll-name">Scroll Down</span>
                         <i class="uil uil-arrow-down home__scroll-arrow"></i>
                     </a>
                 </div>
             </div>
         </section>
 
-        <section class="about section" id="about">
+        <section class="about section" id="about" data-aos="fade-up">
             <h2 class="section__title">About Me</h2>
             <span class="section__subtitle">My Introduction</span>
             <div class="about__container container grid">
-                <img src="assets/image/profileimage.jpeg" alt="Profile" class="about__img" />
+                <img src="assets/image/profileimage.jpeg" alt="Foto Hayyan" class="about__image" />
                 <div class="about__data">
                     <p class="about__description">
-                        Final-year Informatics student specializing in **Artificial Intelligence (RAG & Deep Learning)** and **Full-Stack Development**. I combine strong engineering principles with modern AI workflows to build scalable solutions. <br><br>
-                        Experienced in building end-to-end systems, from training custom models to deploying them as production-ready web apps. Currently seeking internship opportunities in AI/ML or Data Science roles.
-                    </p>
-                    <div class="about__info">
-                        <div><span class="about__info-title">3+</span><span class="about__info-name">Years <br> Coding</span></div>
-                        <div><span class="about__info-title">5+</span><span class="about__info-name">Projects <br> Completed</span></div>
-                        <div><span class="about__info-title">2</span><span class="about__info-name">Internships <br> Experience</span></div>
-                    </div>
-                    <div class="about__buttons">
-                        <a href="assets/sertifikat/CV_HAYYAN.pdf" download class="button button--flex">
-                            Download CV <i class="uil uil-download-alt button__icon"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="skills section" id="skills">
-            <h2 class="section__title">Tech Stack</h2>
-            <span class="section__subtitle">My Technical Toolkit</span>
-            <div class="skills__container container grid">
-                <div class="skills__content">
-                    <div class="skills__header"><i class="uil uil-brain skills__icon"></i><h3 class="skills__title">AI & Data</h3></div>
-                    <div class="skills__list grid">
-                        <div class="skills__data"><div class="skills__titles"><h3 class="skills__name">Python</h3></div></div>
-                        <div class="skills__data"><div class="skills__titles"><h3 class="skills__name">TensorFlow</h3></div></div>
-                        <div class="skills__data"><div class="skills__titles"><h3 class="skills__name">Pinecone</h3></div></div>
-                        <div class="skills__data"><div class="skills__titles"><h3 class="skills__name">LangChain</h3></div></div>
-                        <div class="skills__data"><div class="skills__titles"><h3 class="skills__name">Pandas</h3></div></div>
-                        <div class="skills__data"><div class="skills__titles"><h3 class="skills__name">SQL</h3></div></div>
-                    </div>
-                </div>
-                <div class="skills__content">
-                    <div class="skills__header"><i class="uil uil-server-network skills__icon"></i><h3 class="skills__title">Backend</h3></div>
-                    <div class="skills__list grid">
-                        <div class="skills__data"><div class="skills__titles"><h3 class="skills__name">FastAPI</h3></div></div>
-                        <div class="skills__data"><div class="skills__titles"><h3 class="skills__name">Flask</h3></div></div>
-                        <div class="skills__data"><div class="skills__titles"><h3 class="skills__name">Docker</h3></div></div>
-                        <div class="skills__data"><div class="skills__titles"><h3 class="skills__name">Git</h3></div></div>
-                    </div>
-                </div>
-                <div class="skills__content">
-                    <div class="skills__header"><i class="uil uil-brackets-curly skills__icon"></i><h3 class="skills__title">Frontend</h3></div>
-                    <div class="skills__list grid">
-                        <div class="skills__data"><div class="skills__titles"><h3 class="skills__name">React.js</h3></div></div>
-                        <div class="skills__data"><div class="skills__titles"><h3 class="skills__name">Tailwind</h3></div></div>
-                        <div class="skills__data"><div class="skills__titles"><h3 class="skills__name">Vite</h3></div></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="portfolio section" id="projects">
-            <h2 class="section__title">Featured Projects</h2>
-            <span class="section__subtitle">Most Recent Work</span>
-            
-            <div class="portfolio__container container swiper-container">
-                <div class="swiper-wrapper">
-                    
-                    <div class="portfolio__content grid swiper-slide">
-                        <img src="assets/image/project1_rag.png" alt="Tanya UU Naker" class="portfolio__img">
-                        <div class="portfolio__data">
-                            <h3 class="portfolio__title">Tanya UU Naker (RAG AI)</h3>
-                            <p class="portfolio__description">
-                                A Full-Stack **RAG (Retrieval-Augmented Generation)** system for Indonesian Labor Law analysis. 
-                                Features decoupled architecture (FastAPI + React), semantic search via Pinecone, and automatic citation to minimize AI hallucination.
-                            </p>
-                            <div class="portfolio__tags">
-                                <span class="tag">FastAPI</span> <span class="tag">React</span> <span class="tag">Pinecone</span> <span class="tag">Gemini 2.0</span>
-                            </div>
-                            <a href="https://tanya-uu-naker.vercel.app/" target="_blank" class="button button--flex button--small portfolio__button">
-                                Live Demo <i class="uil uil-arrow-right button__icon"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="portfolio__content grid swiper-slide">
-                        <img src="assets/image/project2_phishing.png" alt="Phishing Detection" class="portfolio__img">
-                        <div class="portfolio__data">
-                            <h3 class="portfolio__title">Phishing Detection 1D-CNN</h3>
-                            <p class="portfolio__description">
-                                End-to-end Deep Learning system using **1D-CNN architecture** to detect malicious URLs. 
-                                Trained on custom-balanced datasets, achieving **99% accuracy** on unseen test data.
-                            </p>
-                            <div class="portfolio__tags">
-                                <span class="tag">TensorFlow</span> <span class="tag">Python</span> <span class="tag">Deep Learning</span>
-                            </div>
-                            <a href="https://phisingdetection1dcnnhayyan.netlify.app/" target="_blank" class="button button--flex button--small portfolio__button">
-                                View Project <i class="uil uil-arrow-right button__icon"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="portfolio__content grid swiper-slide">
-                        <img src="assets/image/geospasial.png" alt="WebGIS Brebes" class="portfolio__img">
-                        <div class="portfolio__data">
-                            <h3 class="portfolio__title">Sistem Geospasial Brebes</h3>
-                            <p class="portfolio__description">
-                                WebGIS application for digital infrastructure mapping in Brebes Regency. Built with Flask and Leaflet.js during internship at Komdigi.
-                            </p>
-                            <div class="portfolio__tags">
-                                <span class="tag">Flask</span> <span class="tag">Leaflet.js</span> <span class="tag">MySQL</span>
-                            </div>
-                            <a href="https://hayyankomdigi.pythonanywhere.com/" target="_blank" class="button button--flex button--small portfolio__button">
-                                View Project <i class="uil uil-arrow-right button__icon"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-                
-                <div class="swiper-button-next"><i class="uil uil-angle-right-b swiper-portfolio-icon"></i></div>
-                <div class="swiper-button-prev"><i class="uil uil-angle-left-b swiper-portfolio-icon"></i></div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </section>
-
-        <section class="contact section" id="contact">
-            <h2 class="section__title">Contact Me</h2>
-            <span class="section__subtitle">Let's Collaborate</span>
-
-            <div class="contact__container container grid">
-                <div class="contact__content">
-                    <h3 class="contact__title">Talk to me</h3>
-                    <div class="contact__info">
-                        <div class="contact__card">
-                            <i class="uil uil-envelope-edit contact__card-icon"></i>
-                            <h3 class="contact__card-title">Email</h3>
-                            <span class="contact__card-data">hayyan.dev@gmail.com</span>
-                            <a href="mailto:hayyan.dev@gmail.com" class="contact__button">Write me <i class="uil uil-arrow-right contact__button-icon"></i></a>
-                        </div>
-                        <div class="contact__card">
-                            <i class="uil uil-whatsapp contact__card-icon"></i>
-                            <h3 class="contact__card-title">WhatsApp</h3>
-                            <span class="contact__card-data">0895-2989-2817</span>
-                            <a href="https://wa.me/6289529892817" target="_blank" class="contact__button">Write me <i class="uil uil-arrow-right contact__button-icon"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="footer__bg">
-            <div class="footer__container container grid">
-                <div>
-                    <h1 class="footer__title">Hayyan</h1>
-                    <span class="footer__subtitle">AI Engineer & Developer</span>
-                </div>
-                <ul class="footer__links">
-                    <li><a href="#projects" class="footer__link">Projects</a></li>
-                    <li><a href="#about" class="footer__link">About</a></li>
-                    <li><a href="#contact" class="footer__link">Contact</a></li>
-                </ul>
-                <div class="footer__socials">
-                    <a href="https://www.linkedin.com/in/hayyannashrulloh" target="_blank" class="footer__social"><i class="uil uil-linkedin-alt"></i></a>
-                    <a href="https://github.com/hayyanjpg" target="_blank" class="footer__social"><i class="uil uil-github-alt"></i></a>
-                </div>
-            </div>
-            <p class="footer__copy">&#169; 2024 Hayyan Nashrulloh. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <a href="#" class="scrollup" id="scroll-up"><i class="uil uil-arrow-up scrollup__icon"></i></a>
-
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script>
-        // Simple Loader
-        window.onload = function(){
-            document.getElementById('loading').style.display = 'none';
-            AOS.init({ duration: 800, once: true });
-        }
-    </script>
-</body>
-</html>
+                        Saya adalah mahasiswa Teknik Informatika di Telkom University Purwokerto. Fokus utama saya adalah **Artificial Intelligence (GenAI & Deep Learning)** dan **Modern Web Development**.
+                        <br>
