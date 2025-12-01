@@ -15,23 +15,11 @@
 
     <style>
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.8); padding-top: 50px; backdrop-filter: blur(5px); }
-        .modal-content { position: relative; background-color: #fefefe; margin: auto; padding: 0; border-radius: 12px; width: 90%; max-width: 900px; height: 85%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19); overflow: hidden; }
+        .modal-content { position: relative; background-color: #fefefe; margin: auto; padding: 0; border-radius: 12px; width: 90%; max-width: 900px; height: 85%; box-shadow: 0 4px 20px rgba(0,0,0,0.25); overflow: hidden; animation: zoomIn 0.3s; }
         .modal-content iframe { width: 100%; height: 100%; border: none; }
         .close-button { color: #fff; position: absolute; top: 10px; right: 25px; font-size: 40px; font-weight: bold; cursor: pointer; z-index: 1001; transition: 0.3s; }
-        .close-button:hover { color: #ccc; }
-        
-        /* Modern Certificate Grid */
-        .certificate__container { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-        .certificate__card { background-color: var(--container-color); padding: 1.5rem; border-radius: 1rem; box-shadow: var(--box-shadow); text-align: center; transition: .3s; border: 1px solid var(--border-color); }
-        .certificate__card:hover { transform: translateY(-5px); box-shadow: var(--box-shadow-hover); }
-        .certificate__card img { width: 100%; border-radius: 0.5rem; margin-bottom: 1rem; object-fit: cover; aspect-ratio: 16/9; }
-        .certificate__card h3 { font-size: var(--normal-font-size); margin-bottom: 1rem; color: var(--title-color); }
-
-        /* Responsive Helpers */
-        @media screen and (max-width: 567px) {
-            .home__img { width: 200px; margin-bottom: 2rem; }
-            .contact__form { width: 100%; }
-        }
+        .close-button:hover { color: var(--first-color); transform: scale(1.1); }
+        @keyframes zoomIn { from {transform: scale(0.9); opacity: 0;} to {transform: scale(1); opacity: 1;} }
     </style>
 </head>
 
@@ -47,14 +35,14 @@
 
     <header class="header" id="header">
         <nav class="nav container">
-            <a href="#" class="nav__logo noSelect">Hayyan<span style="color:var(--first-color)">.AI</span></a>
+            <a href="#" class="nav__logo noSelect">Hayyan<span style="color:var(--first-color)">.Tech</span></a>
             <div class="nav__menu" id="nav-menu">
                 <ul class="nav__list grid">
                     <li class="nav__item"><a href="#home" class="nav__link noSelect active-link"><i class="uil uil-estate nav__icon"></i> Home</a></li>
                     <li class="nav__item"><a href="#about" class="nav__link noSelect"><i class="uil uil-user nav__icon"></i> About</a></li>
                     <li class="nav__item"><a href="#skills" class="nav__link noSelect"><i class="uil uil-file-alt nav__icon"></i> Skills</a></li>
-                    <li class="nav__item"><a href="#projects" class="nav__link noSelect"><i class="uil uil-scenery nav__icon"></i> Projects</a></li>
                     <li class="nav__item"><a href="#experience" class="nav__link noSelect"><i class="uil uil-briefcase-alt nav__icon"></i> Experience</a></li>
+                    <li class="nav__item"><a href="#projects" class="nav__link noSelect"><i class="uil uil-scenery nav__icon"></i> Projects</a></li>
                     <li class="nav__item"><a href="#certificates" class="nav__link noSelect"><i class="uil uil-award nav__icon"></i> Certificates</a></li>
                     <li class="nav__item"><a href="#contact" class="nav__link noSelect"><i class="uil uil-message nav__icon"></i> Contact</a></li>
                 </ul>
@@ -91,9 +79,9 @@
 
                     <div class="home__data">
                         <h1 class="home__title">Hi, Saya Hayyan</h1>
-                        <h3 class="home__subtitle">AI Engineer & Full-Stack Developer</h3>
-                        <p class="home__description">Mahasiswa semester akhir yang menjembatani model AI kompleks dengan aplikasi web dunia nyata yang fungsional dan scalable.</p>
-                        <a href="#projects" class="button button--flex">Lihat Projek Terbaru <i class="uil uil-arrow-right button__icon"></i></a>
+                        <h3 class="home__subtitle">AI Engineer & Full-Stack Dev</h3>
+                        <p class="home__description">Menggabungkan kecerdasan buatan dengan pengembangan web modern untuk menciptakan solusi digital yang berdampak.</p>
+                        <a href="#projects" class="button button--flex">Lihat Portfolio <i class="uil uil-arrow-right button__icon"></i></a>
                     </div>
                 </div>
                 <div class="home__scroll">
@@ -113,5 +101,260 @@
                 <img src="assets/image/profileimage.jpeg" alt="Foto Hayyan" class="about__image" />
                 <div class="about__data">
                     <p class="about__description">
-                        Saya adalah mahasiswa Teknik Informatika di Telkom University Purwokerto. Fokus utama saya adalah **Artificial Intelligence (GenAI & Deep Learning)** dan **Modern Web Development**.
-                        <br>
+                        Saya adalah mahasiswa Teknik Informatika semester akhir dengan spesialisasi di bidang **AI Engineering** (Deep Learning & RAG) dan **Full-Stack Web Development**.
+                        <br><br>
+                        Pengalaman saya mencakup pengembangan sistem AI *end-to-end*, mulai dari melatih model hingga deployment, serta membangun aplikasi web yang *scalable* menggunakan teknologi modern seperti React dan Python. Saya selalu bersemangat untuk memecahkan masalah kompleks melalui kode.
+                    </p>
+                    <div class="about__buttons">
+                        <a download="" href="assets/sertifikat/CV_HAYYAN.pdf" class="button button--flex">Download CV <i class="uil uil-download-alt button__icon"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="skills section" id="skills" data-aos="fade-up">
+            <h2 class="section__title">Tech Stack</h2>
+            <span class="section__subtitle">My Technical Toolkit</span>
+            
+            <div class="skills__container container grid">
+                <div class="skills__card">
+                    <img class="skills__container-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="python" />
+                    <div class="skills__container-name">Python</div>
+                </div>
+                <div class="skills__card">
+                    <img class="skills__container-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" alt="tensorflow" />
+                    <div class="skills__container-name">TensorFlow</div>
+                </div>
+                
+                <div class="skills__card">
+                    <img class="skills__container-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="react" />
+                    <div class="skills__container-name">React</div>
+                </div>
+                <div class="skills__card">
+                    <img class="skills__container-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" alt="fastapi" />
+                    <div class="skills__container-name">FastAPI</div>
+                </div>
+                <div class="skills__card">
+                    <img class="skills__container-img" src="assets/image/tailwindcss.svg" alt="tailwind" />
+                    <div class="skills__container-name">Tailwind</div>
+                </div>
+
+                <div class="skills__card">
+                    <img class="skills__container-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" alt="flask" />
+                    <div class="skills__container-name">Flask</div>
+                </div>
+                <div class="skills__card">
+                    <img class="skills__container-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="sql" />
+                    <div class="skills__container-name">MySQL</div>
+                </div>
+                
+                <div class="skills__card">
+                    <img class="skills__container-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="docker" />
+                    <div class="skills__container-name">Docker</div>
+                </div>
+                <div class="skills__card">
+                    <img class="skills__container-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="git" />
+                    <div class="skills__container-name">Git</div>
+                </div>
+                <div class="skills__card">
+                    <img class="skills__container-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tableau/tableau-original.svg" alt="Tableau" />
+                    <div class="skills__container-name">Tableau</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="experience section" id="experience" data-aos="fade-up">
+            <h2 class="section__title">Experience</h2>
+            <span class="section__subtitle">My Personal Journey</span>
+            <div class="experience__container container">
+                <div class="experience__content">
+                    <div class="experience__data">
+                        <div>
+                            <h3 class="experience__title">Full Stack Developer</h3>
+                            <span class="experience__subtitle">Komdigi Kab. Brebes (Internship)</span>
+                            <div class="experience__calendar">
+                                <i class="uil uil-calendar-alt"></i>
+                                Agu 2024 - Des 2024
+                            </div>
+                        </div>
+                        <div>
+                            <span class="experience__rounder"></span>
+                            <span class="experience__line"></span>
+                        </div>
+                    </div>
+                    <div class="experience__data">
+                        <div></div>
+                        <div>
+                            <span class="experience__rounder"></span>
+                            </div>
+                        <div>
+                            <h3 class="experience__title">Asisten Praktikum PBO</h3>
+                            <span class="experience__subtitle">Universitas Peradaban</span>
+                            <div class="experience__calendar">
+                                <i class="uil uil-calendar-alt"></i>
+                                Feb 2024 - Jun 2024
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="portfolio section" id="projects" data-aos="fade-up">
+            <h2 class="section__title">Featured Projects</h2>
+            <span class="section__subtitle">AI & Full-Stack Works</span>
+            
+            <div class="portfolio__container container swiper-container">
+                <div class="swiper-wrapper">
+                    
+                    <div class="portfolio__content grid swiper-slide">
+                        <img src="assets/image/project-rag.png" alt="Tanya UU Naker" class="portfolio__img" onerror="this.src='https://placehold.co/600x400?text=RAG+Project'" />
+                        <div class="portfolio__data">
+                            <h3 class="portfolio__title">Tanya UU Naker (AI Assistant)</h3>
+                            <p class="portfolio__description">
+                                Chatbot hukum berbasis <strong>Retrieval-Augmented Generation (RAG)</strong>. Dibangun dengan arsitektur mikroservis (FastAPI + React) dan menggunakan <strong>Google Gemini 2.0</strong> serta <strong>Pinecone</strong> untuk memberikan jawaban akurat sesuai UU No. 13/2003.
+                            </p>
+                            <a href="https://tanya-uu-naker.vercel.app/" target="_blank" class="button button--flex button--small portfolio__button">
+                                Coba Demo <i class="uil uil-arrow-right button__icon"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="portfolio__content grid swiper-slide">
+                        <img src="assets/image/project-phishing.png" alt="Phishing Detection" class="portfolio__img" onerror="this.src='https://placehold.co/600x400?text=Phishing+Detection'" />
+                        <div class="portfolio__data">
+                            <h3 class="portfolio__title">Phishing URL Detection AI</h3>
+                            <p class="portfolio__description">
+                                Sistem keamanan siber berbasis <strong>Deep Learning (1D-CNN)</strong> untuk mendeteksi link berbahaya secara real-time dengan akurasi 99%. Model dilatih menggunakan TensorFlow dan di-deploy menggunakan Flask.
+                            </p>
+                            <a href="https://phisingdetection1dcnnhayyan.netlify.app/" target="_blank" class="button button--flex button--small portfolio__button">
+                                Coba Demo <i class="uil uil-arrow-right button__icon"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="portfolio__content grid swiper-slide">
+                        <img src="assets/image/geospasial.png" alt="GIS Brebes" class="portfolio__img" />
+                        <div class="portfolio__data">
+                            <h3 class="portfolio__title">WebGIS Geospasial Brebes</h3>
+                            <p class="portfolio__description">
+                                Sistem Informasi Geografis (SIG) untuk pemetaan infrastruktur di Kabupaten Brebes. Dibangun menggunakan <strong>Flask (Python)</strong>, <strong>Leaflet.js</strong>, dan <strong>MySQL</strong>.
+                            </p>
+                            <a href="https://hayyankomdigi.pythonanywhere.com/" target="_blank" class="button button--flex button--small portfolio__button">
+                                Kunjungi Website <i class="uil uil-arrow-right button__icon"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="swiper-button-next"><i class="uil uil-angle-right-b swiper-portfolio-icon"></i></div>
+                <div class="swiper-button-prev"><i class="uil uil-angle-left-b swiper-portfolio-icon"></i></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </section>
+
+        <section class="section" id="certificates" data-aos="fade-up">
+            <h2 class="section__title">Certificates</h2>
+            <span class="section__subtitle">My Achievements</span>
+            <div class="certificate__container container">
+                <div class="certificate__card">
+                    <img src="assets/image/asprak.png" alt="Sertifikat Asprak" />
+                    <h3>Sertifikat Asisten Praktikum</h3>
+                    <button class="button button--flex button--small" onclick="openModal('asprakModal')">
+                        Lihat Sertifikat <i class="uil uil-arrow-right button__icon"></i>
+                    </button>
+                </div>
+                <div class="certificate__card">
+                    <img src="assets/image/frontend.png" alt="Sertifikat Frontend" />
+                    <h3>Sertifikat Frontend Dicoding</h3>
+                    <button class="button button--flex button--small" onclick="openModal('frontendModal')">
+                        Lihat Sertifikat <i class="uil uil-arrow-right button__icon"></i>
+                    </button>
+                </div>
+                <div class="certificate__card">
+                    <img src="assets/image/backend.png" alt="Sertifikat Backend" />
+                    <h3>Sertifikat Backend Dicoding</h3>
+                    <button class="button button--flex button--small" onclick="openModal('backendModal')">
+                        Lihat Sertifikat <i class="uil uil-arrow-right button__icon"></i>
+                    </button>
+                </div>
+                <div class="certificate__card">
+                    <img src="assets/image/dasarjavascript.png" alt="Sertifikat JS" />
+                    <h3>Sertifikat Dasar Javascript</h3>
+                    <button class="button button--flex button--small" onclick="openModal('jsModal')">
+                        Lihat Sertifikat <i class="uil uil-arrow-right button__icon"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact section" id="contact" data-aos="fade-up">
+            <h2 class="section__title">Contact Me</h2>
+            <span class="section__subtitle">Let's Collaborate</span>
+            <div class="contact__container container grid">
+                <div style="text-align:center;">
+                    <div class="contact__information" style="justify-content:center;">
+                        <i class="uil uil-envelope contact__icon"></i>
+                        <div>
+                            <h3 class="contact__title">Email</h3>
+                            <span class="contact__subtitle">hayyannashrulloh@gmail.com</span>
+                        </div>
+                    </div>
+                    <div class="contact__information" style="justify-content:center;">
+                        <i class="uil uil-linkedin contact__icon"></i>
+                        <div>
+                            <h3 class="contact__title">LinkedIn</h3>
+                            <a href="https://linkedin.com/in/hayyannashrulloh" class="contact__subtitle" target="_blank">Connect with Me</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact__form grid" style="display: flex; align-items: center; justify-content: center;">
+                    <a href="https://wa.me/6289529892817" target="_blank" class="button button--flex" style="width: 100%; max-width: 300px; justify-content: center;">
+                        Chat via WhatsApp <i class="uil uil-whatsapp button__icon"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__bg">
+            <div class="footer__container container grid">
+                <div>
+                    <h1 class="footer__title">Hayyan</h1>
+                    <span class="footer__subtitle">AI Engineer & Full-Stack Dev</span>
+                </div>
+                <ul class="footer__links">
+                    <li><a href="#projects" class="footer__link">Projects</a></li>
+                    <li><a href="#experience" class="footer__link">Experience</a></li>
+                    <li><a href="#contact" class="footer__link">Contact</a></li>
+                </ul>
+                <div class="footer__socials">
+                    <a href="https://www.linkedin.com/in/hayyannashrulloh" target="_blank" class="footer__social"><i class="uil uil-linkedin-alt"></i></a>
+                    <a href="https://github.com/hayyanjpg" target="_blank" class="footer__social"><i class="uil uil-github-alt"></i></a>
+                    <a href="https://www.instagram.com/hayanashrulloh025" target="_blank" class="footer__social"><i class="uil uil-instagram"></i></a>
+                </div>
+            </div>
+            <p class="footer__copy">&#169; Hayyan. Built with Code & Passion.</p>
+        </div>
+    </footer>
+
+    <div id="asprakModal" class="modal"><div class="modal-content"><span class="close-button" onclick="closeModal('asprakModal')">&times;</span><iframe src="assets/sertifikat/asprak.pdf"></iframe></div></div>
+    <div id="frontendModal" class="modal"><div class="modal-content"><span class="close-button" onclick="closeModal('frontendModal')">&times;</span><iframe src="assets/sertifikat/frontend.pdf"></iframe></div></div>
+    <div id="backendModal" class="modal"><div class="modal-content"><span class="close-button" onclick="closeModal('backendModal')">&times;</span><iframe src="assets/sertifikat/backend.pdf"></iframe></div></div>
+    <div id="jsModal" class="modal"><div class="modal-content"><span class="close-button" onclick="closeModal('jsModal')">&times;</span><iframe src="assets/sertifikat/dasarjavascript.pdf"></iframe></div></div>
+
+    <a href="#" class="scrollup" id="scroll-up"><i class="uil uil-arrow-up scrollup__icon"></i></a>
+
+    <script src="assets/js/swiper-bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        window.onload = function () { document.getElementById("loading").style.display = "none"; };
+        function openModal(modalId) { document.getElementById(modalId).style.display = "block"; }
+        function closeModal(modalId) { document.getElementById(modalId).style.display = "none"; }
+        window.onclick = function(event) { if (event.target.classList.contains('modal')) { event.target.style.display = "none"; } }
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>
