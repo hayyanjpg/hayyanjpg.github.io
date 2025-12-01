@@ -4,63 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Portofolio Hayyan. AI Engineer & Full-Stack Developer." />
-    <title>Hayyan - Portofolio</title>
+    <title>Hayyan - AI Engineer Portfolio</title>
 
     <meta property="og:title" content="Hayyan - Portofolio" />
-    <meta property="og:image" content="/assets/img/PwaImages/ios/512.png" />
     <meta property="og:description" content="Portofolio Hayyan. AI Engineer & Full-Stack Developer." />
     
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="assets/css/styles.css" />
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-    <style>
-        /* CSS Tambahan Kecil untuk Memastikan Tampilan Rapi */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.7); padding-top: 50px; }
-        .modal-content { position: relative; background-color: #fefefe; margin: auto; padding: 0; border: 1px solid #888; width: 80%; max-width: 800px; height: 90%; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19); }
-        .modal-content iframe { width: 100%; height: 100%; border: none; }
-        .close-button { color: white; position: absolute; top: -30px; right: 0; font-size: 35px; font-weight: bold; cursor: pointer; }
-        .certificate__container { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-        .certificate__card { background-color: var(--container-color); padding: 1rem; border-radius: .5rem; box-shadow: 0 2px 4px rgba(0,0,0,.15); text-align: center; }
-        .certificate__card img { width: 100%; border-radius: .5rem; margin-bottom: 1rem; }
-        .certificate__card h3 { font-size: var(--h3-font-size); margin-bottom: .25rem; }
-        
-        /* Layout Experience */
-        .experience__container { max-width: 768px; }
-        .experience__content { display: grid; gap: 1.5rem; }
-        .experience__data { display: grid; grid-template-columns: 1fr max-content 1fr; column-gap: 1.5rem; }
-        .experience__title { font-size: var(--normal-font-size); font-weight: var(--font-medium); }
-        .experience__subtitle { display: inline-block; font-size: var(--small-font-size); margin-bottom: var(--mb-1); }
-        .experience__calendar { font-size: var(--smaller-font-size); color: var(--text-color-light); }
-        .experience__rounder { display: inline-block; width: 13px; height: 13px; background-color: var(--first-color); border-radius: 50%; }
-        .experience__line { display: block; width: 1px; height: 100%; background-color: var(--first-color); transform: translate(6px, -7px); }
-
-        /* Responsif Home Image */
-        .home__img { width: 250px; justify-self: center; }
-        .home__blob { width: 100%; fill: var(--first-color); }
-        .home__blob-img { width: 170px; }
-        .home__data { grid-column: 1/3; }
-        
-        @media screen and (min-width: 568px) {
-            .home__content { grid-template-columns: max-content 1fr 1fr; }
-            .home__data { grid-column: 2; }
-            .home__img { order: 1; justify-self: center; grid-column: 3; }
-        }
-        @media screen and (min-width: 767px) {
-            .home__container { row-gap: 5rem; }
-            .home__content { padding-top: 5.5rem; column-gap: 2rem; }
-            .home__img { width: 270px; }
-        }
-        @media screen and (min-width: 992px) {
-            .home__img { width: 320px; }
-        }
-        @media screen and (max-width: 567px) {
-            .home__img { order: -1; grid-column: 1 / 4; margin-bottom: 1.5rem; width: 200px; }
-            .home__data { text-align: center; }
-            .home__data .button { justify-content: center; }
-        }
-    </style>
+    
+    <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 
 <body>
@@ -75,7 +30,7 @@
 
     <header class="header" id="header">
         <nav class="nav container">
-            <a href="#" class="nav__logo noSelect">Hayyan</a>
+            <a href="#" class="nav__logo noSelect">Hayyan<span class="dot-accent">.</span></a>
             <div class="nav__menu" id="nav-menu">
                 <ul class="nav__list grid">
                     <li class="nav__item"><a href="#home" class="nav__link noSelect active-link"><i class="uil uil-estate nav__icon"></i> Home</a></li>
@@ -118,7 +73,7 @@
                     </div>
 
                     <div class="home__data">
-                        <h1 class="home__title">Hi, Saya Hayyan 👋</h1>
+                        <h1 class="home__title">Hi, Saya <span class="text-gradient">Hayyan</span> 👋</h1>
                         <h3 class="home__subtitle">AI Engineer & Full-Stack Developer</h3>
                         <p class="home__description">Specializing in AI-Assisted Development workflows and building production-ready Intelligent Systems.</p>
                         <a href="#contact" class="button button--flex">Contact Me<i class="uil uil-message button__icon"></i></a>
@@ -142,9 +97,9 @@
                 <img src="assets/image/profileimage.jpeg" alt="Foto Hayyan" class="about__image" />
                 <div class="about__data">
                     <p class="about__description">
-                        Saya adalah mahasiswa tingkat akhir <strong>Teknik Informatika</strong> di <strong>Telkom University Purwokerto</strong>, dengan spesialisasi di bidang <strong>AI Engineering</strong> dan <strong>Full-Stack Development</strong>.
+                        Saya adalah mahasiswa tingkat akhir <strong>Teknik Informatika</strong> di <strong>Telkom University Purwokerto</strong>, dengan spesialisasi di bidang <span class="highlight-text">AI Engineering</span> dan <span class="highlight-text">Full-Stack Development</span>.
                         <br><br>
-                        Saya percaya pada prinsip "working smart". Pendekatan saya menggabungkan prinsip rekayasa perangkat lunak fundamental dengan alur kerja <strong>AI-Assisted Development</strong>. Saya fokus menjembatani kesenjangan antara model AI yang kompleks dan kegunaan dunia nyata—bergerak dari konsep ke penerapan secara efisien.
+                        Saya percaya pada prinsip "working smart". Pendekatan saya menggabungkan prinsip rekayasa perangkat lunak fundamental dengan alur kerja <strong>AI-Assisted Development</strong>. Saya fokus menjembatani kesenjangan antara model AI yang kompleks dan kegunaan dunia nyata.
                     </p>
                     <div class="about__buttons">
                         <a download="" href="assets/sertifikat/CV_HAYYAN.pdf" class="button button--flex">Download Resume<i class="uil uil-download-alt button__icon"></i></a>
@@ -213,7 +168,7 @@
             <div class="experience__container container">
                 <div class="experience__content">
                     <div class="experience__data">
-                        <div>
+                        <div class="experience__box-left">
                             <h3 class="experience__title">Full Stack Developer</h3>
                             <span class="experience__subtitle">Komdigi Kab. Brebes (Internship)</span>
                             <div class="experience__calendar">
@@ -230,9 +185,9 @@
                         <div>
                             <span class="experience__rounder"></span>
                         </div>
-                        <div>
+                        <div class="experience__box-right">
                             <h3 class="experience__title">Asisten Praktikum PBO</h3>
-                            <span class="experience__subtitle">Universitas Peradaban (Mentorship)</span>
+                            <span class="experience__subtitle">Universitas Peradaban</span>
                             <div class="experience__calendar">
                                 <i class="uil uil-calendar-alt"></i> Feb 2024 - Jun 2024
                             </div>
@@ -249,11 +204,11 @@
                 <div class="swiper-wrapper">
                     
                     <div class="portfolio__content grid swiper-slide">
-                        <img src="assets/image/tanyauunaker.png" onerror="this.src='https://via.placeholder.com/600x400?text=RAG+AI+System'" alt="Tanya UU Naker" class="portfolio__img" />
+                        <img src="assets/image/tanyauunaker.png" onerror="this.src='https://via.placeholder.com/600x400/2A2A35/ffffff?text=Project+RAG+AI'" alt="Tanya UU Naker" class="portfolio__img" />
                         <div class="portfolio__data">
                             <h3 class="portfolio__title">Tanya UU Naker (RAG AI)</h3>
                             <p class="portfolio__description">
-                                Sistem <strong>Full-Stack RAG</strong> untuk menganalisis UU Ketenagakerjaan. Menggunakan <strong>FastAPI, React, Gemini 2.0, & Pinecone</strong>. Fitur utama mencakup Context-Aware Memory dan kutipan otomatis yang akurat dari dokumen legal.
+                                Sistem <strong>Full-Stack RAG</strong> untuk menganalisis UU Ketenagakerjaan. Menggunakan <strong>FastAPI, React, Gemini 2.0, & Pinecone</strong>. Fitur utama mencakup Context-Aware Memory dan kutipan otomatis.
                             </p>
                             <a href="https://tanya-uu-naker.vercel.app/" target="_blank" class="button button--flex button--small portfolio__button">
                                 Live Demo <i class="uil uil-arrow-right button__icon"></i>
@@ -262,11 +217,11 @@
                     </div>
 
                     <div class="portfolio__content grid swiper-slide">
-                        <img src="assets/image/phishing.png" onerror="this.src='https://via.placeholder.com/600x400?text=1D-CNN+Model'" alt="Phishing Detection" class="portfolio__img" />
+                        <img src="assets/image/phishing.png" onerror="this.src='https://via.placeholder.com/600x400/2A2A35/ffffff?text=Deep+Learning+Project'" alt="Phishing Detection" class="portfolio__img" />
                         <div class="portfolio__data">
                             <h3 class="portfolio__title">Phishing Detection 1D-CNN</h3>
                             <p class="portfolio__description">
-                                Sistem <strong>Deep Learning</strong> end-to-end menggunakan arsitektur <strong>1D-CNN</strong>. Dilatih dengan dataset custom-balanced untuk mendeteksi URL berbahaya dengan akurasi <strong>99%</strong> pada data uji unseen. Tech stack: TensorFlow, Python, Flask.
+                                Sistem <strong>Deep Learning</strong> end-to-end dengan arsitektur <strong>1D-CNN</strong>. Dilatih dengan dataset custom-balanced untuk mendeteksi URL berbahaya dengan akurasi <strong>99%</strong>.
                             </p>
                             <a href="https://phisingdetection1dcnnhayyan.netlify.app/" target="_blank" class="button button--flex button--small portfolio__button">
                                 View Project <i class="uil uil-arrow-right button__icon"></i>
@@ -275,11 +230,11 @@
                     </div>
 
                     <div class="portfolio__content grid swiper-slide">
-                        <img src="assets/image/geospasial.png" alt="Project Website" class="portfolio__img" />
+                        <img src="assets/image/geospasial.png" onerror="this.src='https://via.placeholder.com/600x400/2A2A35/ffffff?text=Web+GIS'" alt="Project Website" class="portfolio__img" />
                         <div class="portfolio__data">
                             <h3 class="portfolio__title">Sistem Geospasial Brebes</h3>
                             <p class="portfolio__description">
-                                WebGIS yang dikembangkan saat magang di <strong>Komdigi Brebes</strong>. Digitasi pemetaan data infrastruktur untuk meningkatkan efisiensi perencanaan wilayah. Tech Stack: Flask, Leaflet.js, SQL.
+                                WebGIS yang dikembangkan saat magang di <strong>Komdigi Brebes</strong>. Digitasi pemetaan data infrastruktur untuk meningkatkan efisiensi perencanaan wilayah.
                             </p>
                             <a href="https://hayyankomdigi.pythonanywhere.com/" target="_blank" class="button button--flex button--small portfolio__button">
                                 Kunjungi Situs <i class="uil uil-arrow-right button__icon"></i>
@@ -299,31 +254,31 @@
             <span class="section__subtitle">My Achievements</span>
             <div class="certificate__container container">
                 <div class="certificate__card">
-                    <img src="assets/image/asprak.png" alt="Sertifikat Asisten Praktikum" />
-                    <h3>Sertifikat Asisten Praktikum</h3>
-                    <button class="button button--flex button--small" onclick="openModal('asprakModal')">
-                        Lihat Sertifikat <i class="uil uil-arrow-right button__icon"></i>
+                    <img src="assets/image/asprak.png" alt="Sertifikat" />
+                    <h3>Asisten Praktikum</h3>
+                    <button class="button button--flex button--ghost" onclick="openModal('asprakModal')">
+                        Lihat <i class="uil uil-eye button__icon"></i>
                     </button>
                 </div>
                 <div class="certificate__card">
-                    <img src="assets/image/frontend.png" alt="Sertifikat Frontend Dicoding" />
-                    <h3>Sertifikat Frontend Dicoding</h3>
-                    <button class="button button--flex button--small" onclick="openModal('frontendModal')">
-                        Lihat Sertifikat <i class="uil uil-arrow-right button__icon"></i>
+                    <img src="assets/image/frontend.png" alt="Sertifikat" />
+                    <h3>Frontend Dicoding</h3>
+                    <button class="button button--flex button--ghost" onclick="openModal('frontendModal')">
+                        Lihat <i class="uil uil-eye button__icon"></i>
                     </button>
                 </div>
                 <div class="certificate__card">
-                    <img src="assets/image/backend.png" alt="Sertifikat Backend Dicoding" />
-                    <h3>Sertifikat Backend Dicoding</h3>
-                    <button class="button button--flex button--small" onclick="openModal('backendModal')">
-                        Lihat Sertifikat <i class="uil uil-arrow-right button__icon"></i>
+                    <img src="assets/image/backend.png" alt="Sertifikat" />
+                    <h3>Backend Dicoding</h3>
+                    <button class="button button--flex button--ghost" onclick="openModal('backendModal')">
+                        Lihat <i class="uil uil-eye button__icon"></i>
                     </button>
                 </div>
                  <div class="certificate__card">
-                    <img src="assets/image/dasarjavascript.png" alt="Sertifikat Dasar Javascript" />
-                    <h3>Sertifikat Dasar Javascript</h3>
-                    <button class="button button--flex button--small" onclick="openModal('jsModal')">
-                        Lihat Sertifikat <i class="uil uil-arrow-right button__icon"></i>
+                    <img src="assets/image/dasarjavascript.png" alt="Sertifikat" />
+                    <h3>Dasar Javascript</h3>
+                    <button class="button button--flex button--ghost" onclick="openModal('jsModal')">
+                        Lihat <i class="uil uil-eye button__icon"></i>
                     </button>
                 </div>
             </div>
@@ -333,7 +288,7 @@
             <h2 class="section__title">Contact Me</h2>
             <span class="section__subtitle">Let's Connect!</span>
             <div class="contact__container container grid">
-                <div>
+                <div class="contact__info-wrapper">
                     <div class="contact__information">
                         <i class="uil uil-whatsapp contact__icon"></i>
                         <div>
@@ -352,16 +307,16 @@
                         <i class="uil uil-map-marker contact__icon"></i>
                         <div>
                             <h3 class="contact__title">Location</h3>
-                            <span class="contact__subtitle">Brebes/Purwokerto, Indonesia</span>
+                            <span class="contact__subtitle">Purwokerto, Indonesia</span>
                         </div>
                     </div>
                 </div>
                 
-                <div class="contact__form grid" style="display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1rem;">
-                    <a href="https://wa.me/6289529892817" target="_blank" class="button button--flex" style="width: 100%; max-width: 300px; justify-content: center;">
+                <div class="contact__actions">
+                    <a href="https://wa.me/6289529892817" target="_blank" class="button button--flex w-100">
                         Chat via WhatsApp <i class="uil uil-whatsapp button__icon"></i>
                     </a>
-                    <a href="mailto:hayyannashrulloh@gmail.com" class="button button--flex" style="width: 100%; max-width: 300px; justify-content: center; background-color: #EA4335; color: white;">
+                    <a href="mailto:hayyannashrulloh@gmail.com" class="button button--flex button--white w-100">
                         Kirim Email <i class="uil uil-envelope button__icon"></i>
                     </a>
                 </div>
@@ -379,7 +334,6 @@
                 <ul class="footer__links">
                     <li><a href="#experience" class="footer__link">Experience</a></li>
                     <li><a href="#projects" class="footer__link">Projects</a></li>
-                    <li><a href="#certificates" class="footer__link">Certificates</a></li>
                 </ul>
                 <div class="footer__socials">
                     <a href="https://www.linkedin.com/in/hayyannashrulloh" target="_blank" class="footer__social"><i class="uil uil-linkedin-alt"></i></a>
@@ -391,53 +345,22 @@
         </div>
     </footer>
 
-    <div id="asprakModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeModal('asprakModal')">&times;</span>
-            <iframe src="assets/sertifikat/asprak.pdf"></iframe>
-        </div>
-    </div>
-    <div id="frontendModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeModal('frontendModal')">&times;</span>
-            <iframe src="assets/sertifikat/frontend.pdf"></iframe>
-        </div>
-    </div>
-    <div id="backendModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeModal('backendModal')">&times;</span>
-            <iframe src="assets/sertifikat/backend.pdf"></iframe>
-        </div>
-    </div>
-    <div id="jsModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeModal('jsModal')">&times;</span>
-            <iframe src="assets/sertifikat/dasarjavascript.pdf"></iframe>
-        </div>
-    </div>
+    <div id="asprakModal" class="modal"><div class="modal-content"><span class="close-button" onclick="closeModal('asprakModal')">&times;</span><iframe src="assets/sertifikat/asprak.pdf"></iframe></div></div>
+    <div id="frontendModal" class="modal"><div class="modal-content"><span class="close-button" onclick="closeModal('frontendModal')">&times;</span><iframe src="assets/sertifikat/frontend.pdf"></iframe></div></div>
+    <div id="backendModal" class="modal"><div class="modal-content"><span class="close-button" onclick="closeModal('backendModal')">&times;</span><iframe src="assets/sertifikat/backend.pdf"></iframe></div></div>
+    <div id="jsModal" class="modal"><div class="modal-content"><span class="close-button" onclick="closeModal('jsModal')">&times;</span><iframe src="assets/sertifikat/dasarjavascript.pdf"></iframe></div></div>
 
     <a href="#" class="scrollup" id="scroll-up"><i class="uil uil-arrow-up scrollup__icon"></i></a>
 
     <script src="assets/js/swiper-bundle.min.js"></script>
     <script src="assets/js/main.js"></script>
     <script>
-        // Loading Handler
-        window.onload = function () {
-            document.getElementById("loading").style.display = "none";
-        };
-
-        // Modal Handlers
+        window.onload = function () { document.getElementById("loading").style.display = "none"; };
         function openModal(modalId) { document.getElementById(modalId).style.display = "block"; }
         function closeModal(modalId) { document.getElementById(modalId).style.display = "none"; }
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = "none";
-            }
-        }
+        window.onclick = function(event) { if (event.target.classList.contains('modal')) { event.target.style.display = "none"; } }
     </script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script>
-      AOS.init({ duration: 1000, once: true });
-    </script>
+    <script> AOS.init({ duration: 1000, once: true }); </script>
 </body>
 </html>
