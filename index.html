@@ -12,10 +12,10 @@
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <style>
-        /*==================== CSS LANGSUNG DISINI ====================*/
+        
         :root {
             --header-height: 3.5rem;
-            /* Warna Tema: Deep Purple/Indigo Modern */
+            
             --hue-color: 250; 
             --first-color: hsl(var(--hue-color), 75%, 60%);
             --first-color-second: hsl(var(--hue-color), 69%, 61%);
@@ -61,7 +61,7 @@
         /* BASE */
         * { box-sizing: border-box; padding: 0; margin: 0; }
         html { scroll-behavior: smooth; }
-        body { margin: 0 0 var(--header-height) 0; font-family: var(--body-font); font-size: var(--normal-font-size); background-color: var(--body-color); color: var(--text-color); transition: .3s; }
+        body { margin: 0 0 var(--header-height) 0; font-family: var(--body-font); font-size: var(--normal-font-size); background-color: var(--body-color); color: var(--text-color); transition: background-color .4s ease, color .4s ease; }
         h1, h2, h3, h4 { color: var(--title-color); font-weight: var(--font-semi-bold); }
         ul { list-style: none; }
         a { text-decoration: none; }
@@ -135,7 +135,8 @@
         .experience__title { font-size: var(--normal-font-size); font-weight: var(--font-medium); }
         .experience__subtitle { display: inline-block; font-size: var(--small-font-size); margin-bottom: 1rem; color: var(--text-color-light); }
         .experience__calendar { font-size: var(--smaller-font-size); color: var(--text-color-light); }
-        .experience__rounder { display: inline-block; width: 13px; height: 13px; background-color: var(--first-color); border-radius: 50%; }
+        .experience__rounder { display: inline-block; width: 13px; height: 13px; background-color: var(--first-color); border-radius: 50%; transition: transform .3s ease; }
+        .experience__data:hover .experience__rounder { transform: scale(1.25); }
         .experience__line { display: block; width: 1px; height: 100%; background-color: var(--first-color); transform: translate(6px, -7px); }
         
         /* PORTFOLIO / PROJECTS */
@@ -324,7 +325,7 @@
             <h2 class="section__title">Experience</h2>
             <span class="section__subtitle">My Personal Journey</span>
             <div class="experience__container container">
-                <div class="experience__data">
+                <div class="experience__data" data-aos="fade-up" data-aos-delay="0">
                     <div style="text-align: right;">
                         <h3 class="experience__title">Full Stack Developer</h3>
                         <span class="experience__subtitle">Komdigi Kab. Brebes (Internship)</span>
@@ -333,12 +334,12 @@
                     <div><span class="experience__rounder"></span><span class="experience__line"></span></div>
                     <div></div>
                 </div>
-                <div class="experience__data">
+                <div class="experience__data" data-aos="fade-up" data-aos-delay="150">
                     <div></div>
                     <div><span class="experience__rounder"></span></div>
                     <div>
                         <h3 class="experience__title">Asisten Praktikum PBO</h3>
-                        <span class="experience__subtitle">Universitas Peradaban</span>
+                        <span class="experience__subtitle">Telkom University Purwokerto</span>
                         <div class="experience__calendar"><i class="uil uil-calendar-alt"></i> Feb 2024 - Jun 2024</div>
                     </div>
                 </div>
@@ -451,7 +452,7 @@
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
         // Init Library
-        AOS.init({ duration: 1000, once: true });
+        AOS.init({ duration: 900, once: true, easing: 'ease-out-cubic', offset: 80 });
         new Swiper(".portfolio__container", {
             cssMode: true, loop: true,
             navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
