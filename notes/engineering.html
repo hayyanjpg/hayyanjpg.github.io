@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Tiga catatan engineering singkat: dataset bersih, fake object dalam test, dan validasi SQL untuk text-to-SQL." />
+    <title>ENGINEERING NOTES | HAYYAN.EXE</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23080b18'/%3E%3Cpath d='M6 6h6v8h8V6h6v20h-6v-8h-8v8H6z' fill='%2300f0ff'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <style>
+        .cs-hero { padding-top: calc(var(--header-h) + 3rem); }
+        .cs-back { display: inline-block; margin-bottom: 1.6rem; font-size: .78rem; color: var(--cyan); text-decoration: none; }
+        .cs-back:hover { text-decoration: underline; }
+        .cs-lede { max-width: 760px; color: var(--muted); margin-top: 1rem; }
+        .cs-section { padding-top: 2.4rem; }
+        .cs-h { font-family: var(--font-pixel); font-size: .85rem; color: var(--cyan); margin-bottom: 1rem; line-height: 1.7; }
+        .cs-body { max-width: 820px; color: var(--text); }
+        .cs-body p + p { margin-top: .9rem; }
+        .cs-body a { color: var(--cyan); }
+        .cs-num { font-family: var(--font-pixel); color: var(--magenta); font-size: .7rem; display: block; margin-bottom: .7rem; }
+    </style>
+</head>
+
+<body data-theme="dark">
+    <header class="header" id="header">
+        <nav class="nav container" aria-label="Navigasi catatan">
+            <a href="../index.html" class="logo" aria-label="Kembali ke portfolio">HAYYAN<span>.EXE</span></a>
+            <div class="nav__tools">
+                <button class="tool-btn" id="lang-btn" type="button" aria-label="Ganti bahasa">ID</button>
+                <button class="tool-btn" id="theme-btn" type="button" aria-label="Ganti tema">☀</button>
+            </div>
+        </nav>
+    </header>
+
+    <main style="position:relative;z-index:1;">
+        <section class="section cs-hero">
+            <div class="container">
+                <a class="cs-back" href="../index.html">← KEMBALI KE PORTFOLIO</a>
+                <span class="eyebrow">NOTES // 3 HAL SINGKAT</span>
+                <h1 class="sec-title">ENGINEERING NOTES</h1>
+                <p class="sec-sub cs-lede">Hal-hal yang saya pelajari dari proyek, ditulis pendek supaya mudah dibaca orang yang nggak punya waktu buka case study panjang.</p>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">01 / DATASET BERSIH ITU BUKAN PELENGKAP</h2>
+                <div class="cs-body">
+                    <span class="cs-num">DARI RECONCILIATION PIPELINE</span>
+                    <p>Di pipeline rekonsiliasi, aturan SQL yang sama dijalankan dua kali: sekali pada dataset kotor, sekali pada dataset bersih. Di dataset kotor cuma 2 dari 16 check yang lolos. Di dataset bersih, 16 dari 16 lolos.</p>
+                    <p>Kalau saya hanya punya dataset kotor, saya bisa mengklaim "semua anomali terdeteksi" — tapi itu bisa berarti sistem menuduh semuanya. Dataset bersih adalah cara membuktikan aturannya nggak bikin false positive. Dua angka itu baru bermakna kalau dibaca berdua.</p>
+                    <p><a href="../case-studies/reconciliation.html">→ Baca case study reconciliation</a></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">02 / FAKE OBJECT BISA MENYEMBUNYIKAN BUG PRODUKSI</h2>
+                <div class="cs-body">
+                    <span class="cs-num">DARI BOGANA AI ERP</span>
+                    <p>Restock bahan diproduction selalu balas 500. Akarnya: <code>StockRepository.restock()</code> memanggil <code>_require_pool()</code> yang ternyata cuma ada di repository lain. Test API lolos karena memakai <code>FakeStockRepository</code> — jalur repository asli nggak pernah jalan.</p>
+                    <p>Sejak itu saya sengaja menyisipkan satu jalur real repository di regression test, dengan pool dan transaksi yang masih di-fake. Fake tetap dipakai untuk kecepatan, tapi bukan untuk menutup kelas yang paling rawan.</p>
+                    <p><a href="../case-studies/bogana.html">→ Baca case study Bogana</a></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">03 / VALIDASI SQL NGGAK BISA CUMA CARI KATA TERLARANG</h2>
+                <div class="cs-body">
+                    <span class="cs-num">DARI SIFT TEXT-TO-SQL</span>
+                    <p>Kalau validator cuma mencari string seperti <code>DROP</code>, kata itu bisa disisipkan di komentar atau di dalam literal. Di SIFT saya pakai validator berbasis state machine yang paham komentar, string, quoted identifier, dan dollar-quoted block. Hasil LLM juga dibersihkan dulu dari markdown fence dan prefiks <code>sql:</code>.</p>
+                    <p>SELECT jalan di transaksi read-only dengan timeout 60 detik. DML ditahan dan baru jalan setelah konfirmasi, dengan validasi ulang. Yang belum ada: audit log dan role database terpisah — itu masih saya sebut terus terang di README.</p>
+                    <p><a href="../case-studies/sql-sift.html">→ Baca case study SIFT</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+
+</html>
