@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Case study: ERP F&B B2B dengan parser order NLP, stok transaksional PostgreSQL, cache Redis, dan QA produksi." />
+    <title>CASE STUDY — BOGANA AI ERP | HAYYAN.EXE</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23080b18'/%3E%3Cpath d='M6 6h6v8h8V6h6v20h-6v-8h-8v8H6z' fill='%2300f0ff'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <style>
+        .cs-hero { padding-top: calc(var(--header-h) + 3rem); }
+        .cs-back { display: inline-block; margin-bottom: 1.6rem; font-size: .78rem; color: var(--cyan); text-decoration: none; }
+        .cs-back:hover { text-decoration: underline; }
+        .cs-lede { max-width: 760px; color: var(--muted); margin-top: 1rem; }
+        .cs-meta { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.8rem 0 2.4rem; }
+        .cs-meta span { border: 1px solid var(--border); background: var(--panel); padding: .45rem .8rem; font-size: .72rem; color: var(--text); }
+        .cs-section { padding-top: 2.6rem; }
+        .cs-h { font-family: var(--font-pixel); font-size: .85rem; color: var(--cyan); margin-bottom: 1rem; line-height: 1.7; }
+        .cs-body { max-width: 860px; color: var(--text); }
+        .cs-body p + p { margin-top: 1rem; }
+        .cs-body ul { margin: .8rem 0 0 1.2rem; color: var(--muted); }
+        .cs-body li { margin-bottom: .45rem; }
+        .cs-shot { width: 100%; max-width: 860px; border: 1px solid var(--border); display: block; margin-top: 1.5rem; }
+        .cs-table { width: 100%; max-width: 860px; border-collapse: collapse; margin-top: 1rem; font-size: .82rem; }
+        .cs-table th, .cs-table td { border: 1px solid var(--border); padding: .6rem .8rem; text-align: left; vertical-align: top; }
+        .cs-table th { color: var(--cyan); background: var(--panel); }
+        .cs-table td { color: var(--muted); }
+        .cs-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.6rem; padding-bottom: 3rem; }
+    </style>
+</head>
+
+<body data-theme="dark">
+    <header class="header" id="header">
+        <nav class="nav container" aria-label="Navigasi case study">
+            <a href="../index.html" class="logo" aria-label="Kembali ke portfolio">HAYYAN<span>.EXE</span></a>
+            <div class="nav__tools">
+                <button class="tool-btn" id="lang-btn" type="button" aria-label="Ganti bahasa">ID</button>
+                <button class="tool-btn" id="theme-btn" type="button" aria-label="Ganti tema">☀</button>
+            </div>
+        </nav>
+    </header>
+
+    <main style="position:relative;z-index:1;">
+        <section class="section cs-hero">
+            <div class="container">
+                <a class="cs-back" href="../index.html#projects">← KEMBALI KE PROYEK</a>
+                <span class="eyebrow">CASE STUDY // 01</span>
+                <h1 class="sec-title">BOGANA AI ERP SYSTEM</h1>
+                <p class="sec-sub cs-lede">Order teks bebas jadi item menu lewat NLP parser, stok bahan dicek transaksional di PostgreSQL, lalu disajikan cepat lewat cache Redis dan dashboard PHP.</p>
+                <div class="cs-meta">
+                    <span>ROLE: AI / BACKEND ENGINEER</span>
+                    <span>PYTHON · FASTAPI · POSTGRESQL · REDIS · PHP · DOCKER</span>
+                    <span>CI HIJAU · LIVE API</span>
+                    <span>2026</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">01 // MASALAH</h2>
+                <div class="cs-body">
+                    <p>Order masuk dari WhatsApp, email, atau telepon dalam bentuk teks bebas: <code>"40 nasi bogana komplit, 15 ayam kecap"</code>. Operator harus menerjemahkannya ke item menu, lalu memastikan bahan cukup sebelum order dianggap bisa dipenuhi.</p>
+                    <p>Di sisi operasional, dashboard butuh ringkasan order, stok menipis, dan forecast — tapi agregat yang dihitung ulang tiap request bikin lambat.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">02 // ALUR &amp; KEPUTUSAN</h2>
+                <div class="cs-body">
+                    <ul>
+                        <li><strong>Parser bukan sekadar substring.</strong> Teks diurai jadi item + kuantitas, dengan warning <code>MENU_NOT_FOUND</code>, <code>QTY_MISSING</code>, <code>QTY_AMBIGUOUS</code>, <code>DUPLICATE_LINE</code>, dan <code>LOW_CONFIDENCE</code>. Input merah muda nggak diam-diam dianggap benar.</li>
+                        <li><strong>Stok dipotong dalam satu transaksi.</strong> Kebutuhan bahan dihitung dari resep, stok negatif dicegah, dan optimistic locking lewat kolom <code>version</code> dipakai supaya dua order bersamaan nggak saling menimpa.</li>
+                        <li><strong>Redis cache dengan TTL berbeda.</strong> Snapshot stok 60 detik, hasil parse 15 menit, agregat dashboard 30 detik. Kalau Redis mati, sistem fail-open — tetap jalan tanpa cache.</li>
+                        <li><strong>QC dulu, baru fulfilled.</strong> Order hanya bisa selesai kalau seluruh item punya log QC <code>pass</code>.</li>
+                    </ul>
+                    <img class="cs-shot" src="../assets/image/bogana-dashboard.png" alt="Dashboard operasional Bogana AI ERP System" />
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">03 // INSIDEN: BUG P0 YANG LOLOS KE PRODUKSI</h2>
+                <div class="cs-body">
+                    <p>Ini bukan contoh fiktif. Smoke test produksi menemukan restock bahan selalu mengembalikan <code>500 INTERNAL_ERROR</code>, sehingga order berstatus <code>short</code> nggak bisa dipulihkan.</p>
+                    <table class="cs-table">
+                        <thead><tr><th>Tahap</th><th>Temuan</th></tr></thead>
+                        <tbody>
+                            <tr><td>Investigasi</td><td>Dashboard tetap sehat; error cuma muncul di satu aksi. Log mengarah ke handler generik FastAPI, bukan pesan domain.</td></tr>
+                            <tr><td>Akar masalah</td><td><code>StockRepository.restock()</code> memanggil <code>self._require_pool()</code>, padahal method itu cuma ada di repository lain.</td></tr>
+                            <tr><td>Kenapa lolos</td><td>Test API memakai <code>FakeStockRepository</code>, jadi jalur repository asli nggak pernah dieksekusi.</td></tr>
+                            <tr><td>Perbaikan</td><td>Menambahkan <code>_require_pool()</code> dan memakainya di <code>list_all</code>, <code>list_menu_skus</code>, dan <code>restock</code>.</td></tr>
+                            <tr><td>Pencegahan</td><td>Regression test dengan <code>StockRepository</code> asli + fake pool/transaksi, plus smoke test produksi yang aman.</td></tr>
+                            <tr><td>Verifikasi</td><td>Restock <code>ING-RS-01</code> berhasil, stok <code>850 → 850,01</code>; smoke test <strong>18 PASS, 0 FAIL, 1 SKIP</strong>.</td></tr>
+                        </tbody>
+                    </table>
+                    <p style="margin-top:1rem;">Pelajaran yang saya bawa: fake object bikin test cepat, tapi bisa menyembunyikan bug di kelas aslinya. Sejak itu saya sengaja menyertakan satu jalur real repository di regression test.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">04 // BUKTI &amp; KUALITAS</h2>
+                <div class="cs-body">
+                    <p>CI di GitHub Actions jalan di setiap PR ke <code>main</code>: <code>php -l</code> untuk seluruh file PHP, <code>AuthTest.php</code> untuk kontrol akses dashboard, <code>ruff check</code> + <code>ruff format --check</code>, dan <code>pytest -q</code> dengan PostgreSQL 16 dan Redis 7 yang dimuat dari <code>database/schema.sql</code>.</p>
+                    <p>API bisa dicoba langsung lewat Swagger UI di <code>/docs</code>, dan status layanan di <code>/health</code> — health check ini ikut mengecek koneksi PostgreSQL dan Redis.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">05 // BATASAN &amp; LANJUTAN</h2>
+                <div class="cs-body">
+                    <p>Redis bersifat opsional (fail-open), dan deployment gratis memakai Vercel + Neon dengan Redis Upstash sebagai opsi. Detail roadmap ada di README repository — saya sengaja nggak mengklaim sistem ini siap pakai produksi skala besar.</p>
+                </div>
+                <div class="cs-actions">
+                    <a class="btn btn--primary" href="https://github.com/hayyanjpg/bogana-ai-erp-system" target="_blank" rel="noopener">⌘ LIHAT REPOSITORY</a>
+                    <a class="btn btn--ghost" href="https://bogana-ai-erp-system.vercel.app/docs" target="_blank" rel="noopener">▶ API DOCS</a>
+                    <a class="btn btn--ghost" href="../index.html#projects">← KEMBALI</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+
+</html>
