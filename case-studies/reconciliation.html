@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Case study: pipeline rekonsiliasi order dan payment multichannel dengan 16 aturan audit SQL dan 39 automated tests." />
+    <title>CASE STUDY — RECONCILIATION PIPELINE | HAYYAN.EXE</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23080b18'/%3E%3Cpath d='M6 6h6v8h8V6h6v20h-6v-8h-8v8H6z' fill='%2300f0ff'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <style>
+        .cs-hero { padding-top: calc(var(--header-h) + 3rem); }
+        .cs-back { display: inline-block; margin-bottom: 1.6rem; font-size: .78rem; color: var(--cyan); text-decoration: none; }
+        .cs-back:hover { text-decoration: underline; }
+        .cs-lede { max-width: 760px; color: var(--muted); margin-top: 1rem; }
+        .cs-meta { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.8rem 0 2.4rem; }
+        .cs-meta span { border: 1px solid var(--border); background: var(--panel); padding: .45rem .8rem; font-size: .72rem; color: var(--text); }
+        .cs-section { padding-top: 2.6rem; }
+        .cs-h { font-family: var(--font-pixel); font-size: .85rem; color: var(--cyan); margin-bottom: 1rem; line-height: 1.7; }
+        .cs-body { max-width: 860px; color: var(--text); }
+        .cs-body p + p { margin-top: 1rem; }
+        .cs-body ul { margin: .8rem 0 0 1.2rem; color: var(--muted); }
+        .cs-body li { margin-bottom: .45rem; }
+        .cs-shot { width: 100%; max-width: 860px; border: 1px solid var(--border); display: block; margin-top: 1.5rem; }
+        .cs-table { width: 100%; max-width: 860px; border-collapse: collapse; margin-top: 1rem; font-size: .82rem; }
+        .cs-table th, .cs-table td { border: 1px solid var(--border); padding: .6rem .8rem; text-align: left; }
+        .cs-table th { color: var(--cyan); background: var(--panel); }
+        .cs-table td { color: var(--muted); }
+        .cs-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.6rem; padding-bottom: 3rem; }
+    </style>
+</head>
+
+<body data-theme="dark">
+    <header class="header" id="header">
+        <nav class="nav container" aria-label="Navigasi case study">
+            <a href="../index.html" class="logo" aria-label="Kembali ke portfolio">HAYYAN<span>.EXE</span></a>
+            <div class="nav__tools">
+                <button class="tool-btn" id="lang-btn" type="button" aria-label="Ganti bahasa">ID</button>
+                <button class="tool-btn" id="theme-btn" type="button" aria-label="Ganti tema">☀</button>
+            </div>
+        </nav>
+    </header>
+
+    <main style="position:relative;z-index:1;">
+        <section class="section cs-hero">
+            <div class="container">
+                <a class="cs-back" href="../index.html#projects">← KEMBALI KE PROYEK</a>
+                <span class="eyebrow">CASE STUDY // 03</span>
+                <h1 class="sec-title" data-id="RECONCILIATION PIPELINE" data-en="RECONCILIATION PIPELINE">RECONCILIATION PIPELINE</h1>
+                <p class="sec-sub cs-lede"
+                    data-id="Order vs payment dari dua channel, 16 aturan audit SQL, dan bukti bahwa aturannya nggak cuma jalan — tapi juga nggak bikin false positive."
+                    data-en="Orders vs payments from two channels, 16 SQL audit rules, and proof that the rules not only fire but also avoid false positives.">
+                    Order vs payment dari dua channel, 16 aturan audit SQL, dan bukti bahwa aturannya nggak cuma jalan — tapi juga nggak bikin false positive.
+                </p>
+                <div class="cs-meta">
+                    <span>ROLE: DATA / AI ENGINEER</span>
+                    <span>PYTHON · SQL · FASTAPI · REACT · STREAMLIT</span>
+                    <span>CI HIJAU · 39 TESTS</span>
+                    <span>2026</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">01 // MASALAH</h2>
+                <div class="cs-body">
+                    <p>Order masuk dari Web dan Mobile App dengan format yang berbeda. Tanpa rekonsiliasi, selisih nominal, order tanpa pembayaran, pembayaran yatim, dan duplikat baru ketemu setelah data masuk ke warehouse — saat sudah terlambat untuk dicegah.</p>
+                    <p>Tantangannya bukan cuma mendeteksi anomali, tapi memastikan aturan yang dibuat nggak menuduh transaksi yang sehat.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">02 // BATASAN &amp; ASUMSI</h2>
+                <div class="cs-body">
+                    <ul>
+                        <li>Dataset sintetis, bukan data produksi.</li>
+                        <li>SQLite dipakai supaya pipeline portabel; produksi sebaiknya PostgreSQL.</li>
+                        <li>Belum ada scheduler dan alerting (Slack/email).</li>
+                        <li>Dashboard dijalankan lokal, belum di-deploy publik.</li>
+                    </ul>
+                    <p>Batasan ini saya sebut di depan supaya penilaian berfokus pada cara berpikir, bukan klaim yang berlebihan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">03 // ALUR &amp; KEPUTUSAN</h2>
+                <div class="cs-body">
+                    <p>Ingestion CSV mentah → normalisasi skema → 16 aturan audit SQL → rekonsiliasi order vs payment → laporan harian → dashboard React/Streamlit.</p>
+                    <p>Dua keputusan yang saya jaga:</p>
+                    <ul>
+                        <li><strong>Dua dataset, bukan satu.</strong> Dataset kotor dipakai untuk membuktikan tiap aturan bisa mendeteksi anomali. Dataset bersih dipakai untuk membuktikan aturan yang sama nggak menghasilkan false positive. Tanpa dataset bersih, deteksi 100% bisa berarti sistem cuma menuduh semuanya.</li>
+                        <li><strong>SQLite dulu, PostgreSQL nanti.</strong> Portabilitas lebih penting di tahap portofolio; desain tabel dan SQL check sudah disiapkan supaya bisa dipindah tanpa mengubah logika.</li>
+                    </ul>
+                    <img class="cs-shot" src="../assets/image/reconciliation-dashboard.png" alt="Dashboard rekonsiliasi dan data quality multichannel" />
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">04 // BUKTI</h2>
+                <div class="cs-body">
+                    <table class="cs-table">
+                        <thead>
+                            <tr><th>Metrik</th><th>Dataset kotor</th><th>Dataset bersih</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Baris order</td><td>230</td><td>220</td></tr>
+                            <tr><td>Order matched</td><td>190</td><td>220</td></tr>
+                            <tr><td>Check lulus</td><td>2/16</td><td>16/16</td></tr>
+                            <tr><td>Duplikat dalam file</td><td>7</td><td>0</td></tr>
+                            <tr><td>Orphan payment</td><td>6</td><td>0</td></tr>
+                            <tr><td>Nominal berisiko</td><td>Rp 5.118.000</td><td>Rp 0</td></tr>
+                        </tbody>
+                    </table>
+                    <p style="margin-top:1rem;">Pengujian otomatis: <strong>39 tests</strong> — 29 pipeline dan 10 API. Semua lolos di CI; typecheck dan build frontend juga hijau.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">05 // YANG BELUM SELESAI</h2>
+                <div class="cs-body">
+                    <p>Scheduler dan alerting, deploy dashboard supaya bisa dibuka orang lain, dan migrasi ke PostgreSQL. Ini bukan lupa — ini daftar yang sengaja saya simpan sebagai pekerjaan berikutnya.</p>
+                </div>
+                <div class="cs-actions">
+                    <a class="btn btn--primary" href="https://github.com/hayyanjpg/reconciliation-pipeline" target="_blank" rel="noopener">⌘ LIHAT REPOSITORY</a>
+                    <a class="btn btn--ghost" href="https://github.com/hayyanjpg/reconciliation-pipeline#kenapa-proyek-ini-relevan" target="_blank" rel="noopener">⌘ DOKUMENTASI</a>
+                    <a class="btn btn--ghost" href="../index.html#projects">← KEMBALI</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+
+</html>
