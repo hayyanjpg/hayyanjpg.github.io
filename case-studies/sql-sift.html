@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Case study: SIFT, text-to-SQL dengan isolasi workspace per akun, validasi SQL state machine, Groq + fallback Gemini, dan DML yang butuh persetujuan." />
+    <title>CASE STUDY — SIFT TEXT-TO-SQL | HAYYAN.EXE</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23080b18'/%3E%3Cpath d='M6 6h6v8h8V6h6v20h-6v-8h-8v8H6z' fill='%2300f0ff'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <style>
+        .cs-hero { padding-top: calc(var(--header-h) + 3rem); }
+        .cs-back { display: inline-block; margin-bottom: 1.6rem; font-size: .78rem; color: var(--cyan); text-decoration: none; }
+        .cs-back:hover { text-decoration: underline; }
+        .cs-lede { max-width: 760px; color: var(--muted); margin-top: 1rem; }
+        .cs-meta { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.8rem 0 2.4rem; }
+        .cs-meta span { border: 1px solid var(--border); background: var(--panel); padding: .45rem .8rem; font-size: .72rem; color: var(--text); }
+        .cs-section { padding-top: 2.6rem; }
+        .cs-h { font-family: var(--font-pixel); font-size: .85rem; color: var(--cyan); margin-bottom: 1rem; line-height: 1.7; }
+        .cs-body { max-width: 860px; color: var(--text); }
+        .cs-body p + p { margin-top: 1rem; }
+        .cs-body ul { margin: .8rem 0 0 1.2rem; color: var(--muted); }
+        .cs-body li { margin-bottom: .45rem; }
+        .cs-shot { width: 100%; max-width: 860px; border: 1px solid var(--border); display: block; margin-top: 1.5rem; }
+        .cs-table { width: 100%; max-width: 860px; border-collapse: collapse; margin-top: 1rem; font-size: .82rem; }
+        .cs-table th, .cs-table td { border: 1px solid var(--border); padding: .6rem .8rem; text-align: left; vertical-align: top; }
+        .cs-table th { color: var(--cyan); background: var(--panel); }
+        .cs-table td { color: var(--muted); }
+        .cs-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.6rem; padding-bottom: 3rem; }
+    </style>
+</head>
+
+<body data-theme="dark">
+    <header class="header" id="header">
+        <nav class="nav container" aria-label="Navigasi case study">
+            <a href="../index.html" class="logo" aria-label="Kembali ke portfolio">HAYYAN<span>.EXE</span></a>
+            <div class="nav__tools">
+                <button class="tool-btn" id="lang-btn" type="button" aria-label="Ganti bahasa">ID</button>
+                <button class="tool-btn" id="theme-btn" type="button" aria-label="Ganti tema">☀</button>
+            </div>
+        </nav>
+    </header>
+
+    <main style="position:relative;z-index:1;">
+        <section class="section cs-hero">
+            <div class="container">
+                <a class="cs-back" href="../index.html#projects">← KEMBALI KE PROYEK</a>
+                <span class="eyebrow">CASE STUDY // 02</span>
+                <h1 class="sec-title">SIFT — TEXT-TO-SQL DESK</h1>
+                <p class="sec-sub cs-lede">Upload data sendiri, tanya pakai bahasa Indonesia, dapat tabel dan SQL-nya. Satu akun dapat satu schema PostgreSQL sendiri, dan query yang mengubah data nggak pernah jalan tanpa persetujuan.</p>
+                <div class="cs-meta">
+                    <span>ROLE: AI / BACKEND ENGINEER</span>
+                    <span>PYTHON · FASTAPI · POSTGRESQL · REACT · GROQ · GEMINI</span>
+                    <span>LIVE · LOGIN-ONLY</span>
+                    <span>2026</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">01 // MASALAH</h2>
+                <div class="cs-body">
+                    <p>Orang yang nggak tahu SQL tetap mau bertanya pada datanya sendiri. Tapi text-to-SQL yang menghasilkan query sembarangan dua risikonya: data akun lain bisa ikut terbaca, dan query destruktif bisa jalan tanpa sadar.</p>
+                    <p>Saya mau antarmuka yang bisa dipakai orang awam, tapi aturan keamanannya nggak cuma mengandalkan prompt LLM.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">02 // ALUR &amp; KEPUTUSAN</h2>
+                <div class="cs-body">
+                    <p>Alur satu pertanyaan: verifikasi Bearer token → cek kuota harian → baca skema workspace secara real-time → prompt ke Groq (fallback Gemini) → bersihkan output → validasi SQL → SELECT jalan read-only, DML ditahan dulu.</p>
+                    <ul>
+                        <li><strong>Satu akun, satu schema.</strong> Tiap akun Supabase punya schema <code>ws_&lt;24 hex&gt;</code>. Setiap transaksi diarahkan dengan <code>SET LOCAL search_path</code>, dan query yang menyebut schema lain ditolak <code>403</code>.</li>
+                        <li><strong>Validasi bukan cuma string matching.</strong> Output LLM melewati validator berbasis state machine yang paham komentar, string literal, quoted identifier, dan dollar-quoted block — jadi kata terlarang nggak bisa disembunyikan di dalam komentar.</li>
+                        <li><strong>SELECT dan DML dibedakan.</strong> SELECT jalan dalam transaksi <code>READ ONLY</code> dengan <code>statement_timeout</code> 60 detik. INSERT/UPDATE/DELETE dikembalikan sebagai usulan dan baru jalan lewat <code>/api/execute_confirmed</code> setelah pengguna menyetujui — dengan validasi ulang seluruh aturan.</li>
+                        <li><strong>Fallback penyedia.</strong> Groq <code>openai/gpt-oss-120b</code> jadi utama, Gemini cadangan. Kalau penyedia gagal, kuota dikembalikan.</li>
+                    </ul>
+                    <img class="cs-shot" src="../assets/image/sift.png" alt="Tampilan dashboard SIFT text-to-SQL" />
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">03 // BATASAN YANG SENGAJA DICATAT</h2>
+                <div class="cs-body">
+                    <p>Ini bagian yang paling saya jaga jujurnya. Beberapa hal memang belum beres:</p>
+                    <ul>
+                        <li>Belum ada suite pengujian otomatis dan CI (pytest, Playwright, lint) — masih di roadmap.</li>
+                        <li>Role database belum dipisah: SELECT dan DML pakai <code>DATABASE_URL</code> yang sama, dan isolasi ditegakkan backend lewat <code>search_path</code>, bukan RLS per tabel.</li>
+                        <li>Belum ada audit log untuk DML yang disetujui, dan belum ada pagination hasil query.</li>
+                        <li>Rate limit masih in-memory — reset saat instance restart dan nggak dibagi antar-instance.</li>
+                        <li>Prompt skema dipotong kalau database lebih dari 40 tabel / 80 kolom per tabel / 24.000 karakter, dan eksekusi SELECT belum memaksa batas baris.</li>
+                        <li><code>API_ACCESS_KEY</code> adalah jalur lama untuk schema <code>public</code> dan nggak boleh aktif di produksi; mode publik yang dipakai sekarang login-only.</li>
+                    </ul>
+                    <p>Saya lebih memilih menuliskan ini di depan daripada mengklaim SIFT "aman produksi" tanpa bukti.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">04 // BUKTI &amp; STATUS</h2>
+                <div class="cs-body">
+                    <table class="cs-table">
+                        <thead><tr><th>Komponen</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr><td>Frontend</td><td>sql-analysis.vercel.app</td></tr>
+                            <tr><td>Backend API</td><td>sql-analysis-el64.vercel.app</td></tr>
+                            <tr><td>Auth &amp; DB</td><td>Supabase Auth + PostgreSQL</td></tr>
+                            <tr><td>Akses publik</td><td>Login Google atau email + kata sandi</td></tr>
+                            <tr><td>LLM</td><td>Groq utama, Gemini cadangan</td></tr>
+                            <tr><td>Kuota</td><td>15 pertanyaan / akun / hari (UTC)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="section cs-section">
+            <div class="container">
+                <h2 class="cs-h">05 // YANG BELUM SELESAI</h2>
+                <div class="cs-body">
+                    <p>Role database terpisah, endpoint hapus akun, audit log, pratinjau dampak query via <code>EXPLAIN</code>, pagination, dan test suite + CI. Semuanya masih terbuka di README repository.</p>
+                </div>
+                <div class="cs-actions">
+                    <a class="btn btn--primary" href="https://github.com/hayyanjpg/SQL_Analysis" target="_blank" rel="noopener">⌘ LIHAT REPOSITORY</a>
+                    <a class="btn btn--ghost" href="https://sql-analysis.vercel.app" target="_blank" rel="noopener">▶ LIVE DEMO</a>
+                    <a class="btn btn--ghost" href="../index.html#projects">← KEMBALI</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+
+</html>
