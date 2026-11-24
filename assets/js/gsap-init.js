@@ -1,7 +1,7 @@
 /* ==========================================================
-   GSAP ENHANCEMENT LAYER
-   - Huruf judul jatuh dari atas dan terpasang per kata
-   - Avatar & judul section reveal saat scroll
+   GSAP CHOREOGRAPHY — NOIR SKIN
+   - Judul (hero + tiap section): huruf jatuh per kata
+   - Kartu masuk berurutan, parallax foto, progress bar scroll
    - Aman jika CDN gagal / prefers-reduced-motion aktif
    ========================================================== */
 (function () {
@@ -20,22 +20,20 @@
     })[char]);
 
     /* ---------------- JUDUL: HURUF JATUH PER KATA ---------------- */
-    function splitTitle() {
-        document.querySelectorAll('.home__title > span').forEach((span) => {
-            const text = (span.textContent || '').replace(/\s+/g, ' ').trim();
-            if (!text) return;
-            span.innerHTML = text.split(' ').filter(Boolean).map((word) => {
-                const chars = Array.from(word)
-                    .map((char) => '<span class="gsap-char">' + escapeHtml(char) + '</span>')
-                    .join('');
-                return '<span class="gsap-word">' + chars + '</span>';
-            }).join(' ');
-        });
+    function buildTitle(el) {
+        const text = (el.textContent || '').replace(/\s+/g, ' ').trim();
+        if (!text) return;
+        el.innerHTML = text.split(' ').filter(Boolean).map((word) => {
+            const chars = Array.from(word)
+                .map((char) => '<span class="gsap-char">' + escapeHtml(char) + '</span>')
+                .join('');
+            return '<span class="gsap-word">' + chars + '</span>';
+        }).join(' ');
     }
 
-    function dropTitle() {
-        const timeline = gsap.timeline({ delay: 0.08 });
-        document.querySelectorAll('.gsap-word').forEach((word, wordIndex) => {
+    function dropTitle(el, delay) {
+        const timeline = gsap.timeline({ delay: delay || 0 });
+        el.querySelectorAll('.gsap-word').forEach((word, wordIndex) => {
             const chars = word.querySelectorAll('.gsap-char');
             if (!chars.length) return;
             timeline.from(chars, {
@@ -48,15 +46,152 @@
         return timeline;
     }
 
-    function playTitle() {
-        splitTitle();
-        dropTitle();
+    const heroTitle = document.querySelector('.home__title');
+    const sectionTitleStates = [];
+
+    function titleTrigger(state) {
+        if (!ScrollTrigger) {
+            state.revealed = true;
+            dropTitle(state.el, 0);
+            return null;
+        }
+        return ScrollTrigger.create({
+            trigger: state.el,
+            start: 'top 88%',
+            once: true,
+            onEnter: () => {
+                state.revealed = true;
+                dropTitle(state.el, 0);
+            }
+        });
     }
 
-    // Tombol ID/EN mengubah textContent, jadi pecah + jatuhkan lagi setelah toggling.
+    document.querySelectorAll('.sec-title').forEach((el) => {
+        const state = { el: el, revealed: false, trigger: null };
+        buildTitle(el);
+        state.trigger = titleTrigger(state);
+        sectionTitleStates.push(state);
+    });
+
+    function refreshTitles() {
+        if (heroTitle) {
+            buildTitle(heroTitle);
+            dropTitle(heroTitle, 0);
+        }
+        sectionTitleStates.forEach((state) => {
+            buildTitle(state.el);
+            if (state.trigger) state.trigger.kill();
+            if (state.revealed) dropTitle(state.el, 0);
+            else state.trigger = titleTrigger(state);
+        });
+    }
+
+    // Tombol ID/EN mengubah textContent, jadi judul dipecah dan dimainkan ulang.
     const langBtn = document.querySelector('#lang-btn');
-    if (langBtn) {
-        langBtn.addEventListener('click', () => window.setTimeout(playTitle, 0));
+    if (langBtn) langBtn.addEventListener('click', () => window.setTimeout(refreshTitles, 0));
+
+    /* ---------------- NETRALISASI REVEAL BAWAAN ---------------- */
+    // GSAP mengambil alih semua animasi masuk supaya tidak dobel dengan IO.
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
+
+    /* ---------------- KARTU MASUK BERURUTAN ---------------- */
+    const groups = [
+        { items: '.skills__grid .skill', trigger: '.skills__grid' },
+        { items: '.quests .quest', trigger: '.quests' },
+        { items: '.projects__grid .project', trigger: '.projects__grid' },
+        { items: '.certs__grid .cert', trigger: '.certs__grid' },
+        { items: '.contact__cards .contact__card', trigger: '.contact__cards' }
+    ];
+
+    groups.forEach((group) => {
+        const items = document.querySelectorAll(group.items);
+        if (!items.length) return;
+        const config = {
+            y: 34,
+            opacity: 0,
+            duration: 0.75,
+            ease: 'power3.out',
+            stagger: 0.1
+        };
+        if (ScrollTrigger) {
+            config.scrollTrigger = { trigger: group.trigger, start: 'top 86%', once: true };
+        }
+        gsap.from(items, config);
+    });
+
+    /* ---------------- TEKS TENTANG & STAT ---------------- */
+    if (ScrollTrigger) {
+        const about = document.querySelector('.about__text');
+        if (about) {
+            gsap.from(about, {
+                y: 26,
+                opacity: 0,
+                duration: 0.75,
+                ease: 'power3.out',
+                scrollTrigger: { trigger: '.about__grid', start: 'top 82%', once: true }
+            });
+        }
+        const stats = document.querySelectorAll('.stat');
+        if (stats.length) {
+            gsap.from(stats, {
+                y: 20,
+                opacity: 0,
+                duration: 0.6,
+                stagger: 0.12,
+                ease: 'power2.out',
+                scrollTrigger: { trigger: '.stats', start: 'top 90%', once: true }
+            });
+        }
+    }
+
+    /* ---------------- PARALLAX ---------------- */
+    if (ScrollTrigger) {
+        const aboutPhoto = document.querySelector('.about__photo img');
+        if (aboutPhoto) {
+            gsap.fromTo(aboutPhoto,
+                { yPercent: -5, scale: 1.12 },
+                {
+                    yPercent: 5,
+                    scale: 1.12,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: '.about__photo',
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: 0.6
+                    }
+                });
+        }
+
+        const avatar = document.querySelector('.home__avatar');
+        if (avatar) {
+            gsap.to(avatar, {
+                yPercent: 7,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '.home',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+        }
+    }
+
+    /* ---------------- SCROLL PROGRESS ---------------- */
+    if (ScrollTrigger) {
+        const progress = document.createElement('div');
+        progress.className = 'scroll-progress';
+        progress.setAttribute('aria-hidden', 'true');
+        progress.innerHTML = '<span></span>';
+        document.body.appendChild(progress);
+        gsap.fromTo(progress.firstElementChild,
+            { scaleX: 0 },
+            {
+                scaleX: 1,
+                ease: 'none',
+                scrollTrigger: { start: 0, end: 'max', scrub: 0.25 }
+            });
     }
 
     /* ---------------- TUNGGU LOADER HILANG BENAR ---------------- */
@@ -75,51 +210,14 @@
         observer.observe(loader, { attributes: true, attributeFilter: ['class'] });
     }
 
-    /* ---------------- NETRALISASI REVEAL BAWAAN ---------------- */
-    // Elemen yang akan dianimasikan GSAP tidak perlu animasi CSS + IO ganda.
-    function neutralize(selector) {
-        document.querySelectorAll(selector).forEach((el) => el.classList.add('is-visible'));
-    }
-    neutralize('.sec-head');
-    neutralize('.project');
-    neutralize('.home__avatar');
-
-    /* ---------------- REVEAL SAAT SCROLL ---------------- */
-    document.querySelectorAll('.sec-head .sec-title').forEach((title) => {
-        gsap.from(title, {
-            y: 26,
-            opacity: 0,
-            duration: 0.65,
-            ease: 'power2.out',
-            scrollTrigger: ScrollTrigger ? {
-                trigger: title,
-                start: 'top 88%',
-                once: true
-            } : undefined
-        });
-    });
-
-    const projects = document.querySelectorAll('.project');
-    if (projects.length) {
-        gsap.from(projects, {
-            y: 42,
-            opacity: 0,
-            duration: 0.7,
-            stagger: 0.12,
-            ease: 'power3.out',
-            scrollTrigger: ScrollTrigger ? {
-                trigger: '.projects__grid',
-                start: 'top 85%',
-                once: true
-            } : undefined
-        });
-    }
-
     whenLoaderDone(() => {
         // Loader butuh ~450ms untuk fade-out; tunggu supaya jatuhnya terlihat jelas.
         const wait = document.querySelector('#loader') ? 480 : 0;
         window.setTimeout(() => {
-            playTitle();
+            if (heroTitle) {
+                buildTitle(heroTitle);
+                dropTitle(heroTitle, 0);
+            }
             gsap.from('.avatar-frame', {
                 scale: 0.86,
                 opacity: 0,
