@@ -1,6 +1,6 @@
 /* ==========================================================
    GSAP ENHANCEMENT LAYER
-   - Judul hero muncul per kata
+   - Huruf judul jatuh dari atas dan terpasang per kata
    - Avatar & judul section reveal saat scroll
    - Aman jika CDN gagal / prefers-reduced-motion aktif
    ========================================================== */
@@ -19,39 +19,47 @@
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     })[char]);
 
-    /* ---------------- JUDUL PER KATA ---------------- */
-    function splitHero(animate) {
+    /* ---------------- JUDUL: HURUF JATUH PER KATA ---------------- */
+    function splitTitle() {
         document.querySelectorAll('.home__title > span').forEach((span) => {
             const text = (span.textContent || '').replace(/\s+/g, ' ').trim();
             if (!text) return;
-            span.innerHTML = text.split(' ')
-                .filter(Boolean)
-                .map((word) => '<span class="gsap-word">' + escapeHtml(word) + '</span>')
-                .join(' ');
+            span.innerHTML = text.split(' ').filter(Boolean).map((word) => {
+                const chars = Array.from(word)
+                    .map((char) => '<span class="gsap-char">' + escapeHtml(char) + '</span>')
+                    .join('');
+                return '<span class="gsap-word">' + chars + '</span>';
+            }).join(' ');
         });
-
-        if (!animate) return;
-        gsap.fromTo('.home__title .gsap-word',
-            { y: 28, opacity: 0, rotateX: -35 },
-            {
-                y: 0,
-                opacity: 1,
-                rotateX: 0,
-                duration: 0.75,
-                ease: 'back.out(1.5)',
-                stagger: 0.1,
-                delay: 0.15,
-                clearProps: 'transform,opacity'
-            });
     }
 
-    // Tombol ID/EN mengubah textContent, jadi pecah kata lagi setelah toggling.
+    function dropTitle() {
+        const timeline = gsap.timeline({ delay: 0.08 });
+        document.querySelectorAll('.gsap-word').forEach((word, wordIndex) => {
+            const chars = word.querySelectorAll('.gsap-char');
+            if (!chars.length) return;
+            timeline.from(chars, {
+                yPercent: -130,
+                duration: 0.8,
+                ease: 'bounce.out',
+                stagger: 0.045
+            }, wordIndex * 0.24);
+        });
+        return timeline;
+    }
+
+    function playTitle() {
+        splitTitle();
+        dropTitle();
+    }
+
+    // Tombol ID/EN mengubah textContent, jadi pecah + jatuhkan lagi setelah toggling.
     const langBtn = document.querySelector('#lang-btn');
     if (langBtn) {
-        langBtn.addEventListener('click', () => window.setTimeout(() => splitHero(false), 0));
+        langBtn.addEventListener('click', () => window.setTimeout(playTitle, 0));
     }
 
-    /* ---------------- TUNGGU LOADER SELESAI ---------------- */
+    /* ---------------- TUNGGU LOADER HILANG BENAR ---------------- */
     function whenLoaderDone(callback) {
         const loader = document.querySelector('#loader');
         if (!loader || loader.classList.contains('is-hidden')) {
@@ -108,19 +116,23 @@
     }
 
     whenLoaderDone(() => {
-        splitHero(true);
-        gsap.from('.avatar-frame', {
-            scale: 0.86,
-            opacity: 0,
-            duration: 0.8,
-            ease: 'back.out(1.4)'
-        });
-        gsap.from('.home__avatar .avatar-tag, .home__avatar .avatar-hint', {
-            y: 12,
-            opacity: 0,
-            duration: 0.5,
-            stagger: 0.1,
-            delay: 0.35
-        });
+        // Loader butuh ~450ms untuk fade-out; tunggu supaya jatuhnya terlihat jelas.
+        const wait = document.querySelector('#loader') ? 480 : 0;
+        window.setTimeout(() => {
+            playTitle();
+            gsap.from('.avatar-frame', {
+                scale: 0.86,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'back.out(1.4)'
+            });
+            gsap.from('.home__avatar .avatar-tag, .home__avatar .avatar-hint', {
+                y: 12,
+                opacity: 0,
+                duration: 0.5,
+                stagger: 0.1,
+                delay: 0.35
+            });
+        }, wait);
     });
 })();

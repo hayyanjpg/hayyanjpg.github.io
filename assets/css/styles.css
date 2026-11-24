@@ -449,12 +449,19 @@ img {
     transform: translateY(0);
 }
 
-/* GSAP: kata per kata pada judul hero */
+/* GSAP: huruf jatuh dari atas, terpasang per kata pada judul hero */
 .home__title > span {
-    perspective: 500px;
+    perspective: 600px;
 }
 
 .gsap-word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding-bottom: .08em;
+}
+
+.gsap-char {
     display: inline-block;
     transform-style: preserve-3d;
 }

@@ -81,9 +81,10 @@
             line-height: 1.5;
         }
 
-        .demo-title > span { display: block; perspective: 500px; }
+        .demo-title > span { display: block; perspective: 600px; }
         .demo-title .accent { color: var(--cyan); }
-        .word { display: inline-block; transform-style: preserve-3d; }
+        .word { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; }
+        .char { display: inline-block; transform-style: preserve-3d; }
 
         .lead {
             color: var(--muted);
@@ -187,8 +188,9 @@
                     <span class="accent">HAYYAN.</span>
                 </h1>
                 <p class="lead">
-                    Halaman kecil untuk mencoba animasi GSAP: judul muncul per kata, foto masuk dengan
-                    memantul, lalu bergerak mengikuti scroll. Hanya satu foto yang dipakai di halaman ini.
+                    Halaman kecil untuk mencoba animasi GSAP: huruf judul jatuh dari atas dan terpasang
+                    per kata, foto masuk dengan memantul, lalu bergerak mengikuti scroll. Hanya satu foto
+                    yang dipakai di halaman ini.
                 </p>
                 <p class="hint">▼ SCROLL UNTUK LIHAT EFEKNYA</p>
             </div>
@@ -200,7 +202,7 @@
 
         <section class="section">
             <p class="eyebrow">SCROLL LOG // 01</p>
-            <div class="line"><span class="num">01</span> JUDUL MUNCUL PER KATA</div>
+            <div class="line"><span class="num">01</span> HURUF JATUH PER KATA</div>
             <div class="line"><span class="num">02</span> FOTO MENGIKUTI SCROLL</div>
             <div class="line"><span class="num">03</span> TEKS REVEAL SAAT MASUK LAYAR</div>
             <p class="note">
@@ -233,21 +235,26 @@
 
             gsap.registerPlugin(ScrollTrigger);
 
-            // Pecah judul menjadi kata-kata.
+            // Pecah judul jadi kata, lalu tiap kata jadi huruf.
             document.querySelectorAll('.demo-title > span').forEach(function (span) {
                 var text = (span.textContent || '').replace(/\s+/g, ' ').trim();
                 span.innerHTML = text.split(' ').filter(Boolean).map(function (word) {
-                    return '<span class="word">' + word + '</span>';
+                    var chars = Array.from(word).map(function (char) {
+                        return '<span class="char">' + char + '</span>';
+                    }).join('');
+                    return '<span class="word">' + chars + '</span>';
                 }).join(' ');
             });
 
-            gsap.from('.word', {
-                y: 34,
-                opacity: 0,
-                rotateX: -45,
-                duration: 0.8,
-                ease: 'back.out(1.5)',
-                stagger: 0.12
+            // Huruf jatuh dari atas, kata berikutnya menyusul.
+            var timeline = gsap.timeline({ delay: 0.15 });
+            document.querySelectorAll('.word').forEach(function (word, wordIndex) {
+                timeline.from(word.querySelectorAll('.char'), {
+                    yPercent: -130,
+                    duration: 0.8,
+                    ease: 'bounce.out',
+                    stagger: 0.045
+                }, wordIndex * 0.24);
             });
 
             gsap.from('.photo-frame', {
