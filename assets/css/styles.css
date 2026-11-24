@@ -449,6 +449,16 @@ img {
     transform: translateY(0);
 }
 
+/* GSAP: kata per kata pada judul hero */
+.home__title > span {
+    perspective: 500px;
+}
+
+.gsap-word {
+    display: inline-block;
+    transform-style: preserve-3d;
+}
+
 /* ==========================================================
    HERO
    ========================================================== */
