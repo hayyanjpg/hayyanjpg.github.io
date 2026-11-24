@@ -329,25 +329,6 @@ body[data-skin="noir"] .footer {
     border-top: 1px solid var(--border);
 }
 
-/* ---------------- HALAMAN DEMO GSAP ---------------- */
-body[data-skin="noir"] .demo-title {
-    font-family: var(--font-display);
-    font-size: clamp(2.6rem, 7vw, 5rem);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -.05em;
-}
-
-body[data-skin="noir"] .kicker,
-body[data-skin="noir"] .hint {
-    font-family: var(--font-mono);
-    letter-spacing: .1em;
-}
-
-body[data-skin="noir"] .photo-frame {
-    border-radius: 16px;
-}
-
 /* ---------------- SCROLL PROGRESS ---------------- */
 .scroll-progress {
     position: fixed;
