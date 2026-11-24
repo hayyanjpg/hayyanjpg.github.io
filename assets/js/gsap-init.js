@@ -92,7 +92,12 @@
 
     /* ---------------- NETRALISASI REVEAL BAWAAN ---------------- */
     // GSAP mengambil alih semua animasi masuk supaya tidak dobel dengan IO.
-    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
+    // Transisi CSS harus dimatikan: transition-delay bawaan main.js bisa
+    // menahan nilai inline yang ditulis GSAP tiap frame.
+    document.querySelectorAll('.reveal').forEach((el) => {
+        el.style.transition = 'none';
+        el.classList.add('is-visible');
+    });
 
     /* ---------------- KARTU MASUK BERURUTAN ---------------- */
     const groups = [
@@ -103,45 +108,69 @@
         { items: '.contact__cards .contact__card', trigger: '.contact__cards' }
     ];
 
+    // NOTE: tween dibuat di dalam onEnter, bukan lewat opsi `scrollTrigger`
+    // pada gsap.from(). Jika tidak, `once: true` akan meng-kill tween bersama
+    // trigger-nya dan elemen nyangkut di opacity 0.
+    function revealOnScroll(trigger, start, animate) {
+        if (!ScrollTrigger) {
+            animate();
+            return;
+        }
+        ScrollTrigger.create({
+            trigger: trigger,
+            start: start,
+            once: true,
+            onEnter: animate
+        });
+    }
+
     groups.forEach((group) => {
         const items = document.querySelectorAll(group.items);
         if (!items.length) return;
-        const config = {
-            y: 34,
-            opacity: 0,
-            duration: 0.75,
-            ease: 'power3.out',
-            stagger: 0.1
-        };
-        if (ScrollTrigger) {
-            config.scrollTrigger = { trigger: group.trigger, start: 'top 86%', once: true };
-        }
-        gsap.from(items, config);
+        revealOnScroll(group.trigger, 'top 86%', () => {
+            gsap.fromTo(items,
+                { y: 34, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.75,
+                    ease: 'power3.out',
+                    stagger: 0.1,
+                    clearProps: 'opacity,transform'
+                });
+        });
     });
 
     /* ---------------- TEKS TENTANG & STAT ---------------- */
-    if (ScrollTrigger) {
-        const about = document.querySelector('.about__text');
-        if (about) {
-            gsap.from(about, {
-                y: 26,
-                opacity: 0,
-                duration: 0.75,
-                ease: 'power3.out',
-                scrollTrigger: { trigger: '.about__grid', start: 'top 82%', once: true }
-            });
-        }
-        const stats = document.querySelectorAll('.stat');
-        if (stats.length) {
-            gsap.from(stats, {
-                y: 20,
-                opacity: 0,
-                duration: 0.6,
-                stagger: 0.12,
-                ease: 'power2.out',
-                scrollTrigger: { trigger: '.stats', start: 'top 90%', once: true }
-            });
-        }
+    const about = document.querySelector('.about__text');
+    if (about) {
+        revealOnScroll('.about__grid', 'top 82%', () => {
+            gsap.fromTo(about,
+                { y: 26, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.75,
+                    ease: 'power3.out',
+                    clearProps: 'opacity,transform'
+                });
+        });
+    }
+
+    const stats = document.querySelectorAll('.stat');
+    if (stats.length) {
+        revealOnScroll('.stats', 'top 90%', () => {
+            gsap.fromTo(stats,
+                { y: 20, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.6,
+                    stagger: 0.12,
+                    ease: 'power2.out',
+                    clearProps: 'opacity,transform'
+                });
+        });
     }
 
     /* ---------------- PARALLAX ---------------- */
