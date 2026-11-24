@@ -1,0 +1,593 @@
+/* ==========================================================
+   KOMOREBI PATH — scrollytelling styles
+   ========================================================== */
+
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+    background: #0d1024;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+/* ---------------- SKY ---------------- */
+.sky {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+}
+
+.sky-layer {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    will-change: opacity;
+}
+
+.sky-layer.is-active {
+    opacity: 1;
+}
+
+.sky-layer[data-sky="0"] {
+    background: linear-gradient(180deg, #1b1b3a 0%, #4a3b6b 38%, #a77f9b 72%, #e6bdad 100%);
+}
+
+.sky-layer[data-sky="1"] {
+    background: linear-gradient(180deg, #7ec8e3 0%, #b6e2e4 45%, #e7f0cf 100%);
+}
+
+.sky-layer[data-sky="2"] {
+    background: linear-gradient(180deg, #4fa8e8 0%, #9ed6f2 50%, #eaf7ff 100%);
+}
+
+.sky-layer[data-sky="3"] {
+    background: linear-gradient(180deg, #f6b56a 0%, #f39b63 42%, #d87866 75%, #9a5468 100%);
+}
+
+.sky-layer[data-sky="4"] {
+    background: linear-gradient(180deg, #0b1029 0%, #1b2350 55%, #2d3566 100%);
+}
+
+/* ---------------- PARTICLES ---------------- */
+#particles {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+}
+
+/* ---------------- SECTION ---------------- */
+.story {
+    --ink: #1c2a23;
+    --ink-soft: #45574c;
+    --card-bg: rgba(255, 255, 250, .78);
+    --card-border: rgba(40, 70, 50, .16);
+    --accent: #2f7a5a;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 0 7rem;
+    overflow: hidden;
+    color: var(--ink);
+    isolation: isolate;
+}
+
+.story.tone-light {
+    --ink: #f7f2e8;
+    --ink-soft: #e0dae6;
+    --card-bg: rgba(14, 16, 38, .48);
+    --card-border: rgba(255, 255, 255, .22);
+    --accent: #f0c587;
+}
+
+.scene {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.scene svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.story-inner {
+    width: 100%;
+    z-index: 10;
+}
+
+/* ---------------- TYPOGRAPHY ---------------- */
+.eyebrow {
+    font-family: 'Shippori Mincho', serif;
+    font-size: .78rem;
+    letter-spacing: .32em;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
+}
+
+.hero-title {
+    font-family: 'Shippori Mincho', serif;
+    font-weight: 600;
+    font-size: clamp(3.1rem, 9vw, 7.2rem);
+    line-height: 1.08;
+    letter-spacing: -.035em;
+    text-shadow: 0 12px 40px rgba(0, 0, 0, .28);
+}
+
+.hero-title span {
+    display: block;
+}
+
+.hero-title__accent {
+    color: var(--accent);
+    font-style: italic;
+}
+
+.hero-role {
+    margin-top: 1.5rem;
+    font-size: clamp(.95rem, 2.2vw, 1.25rem);
+    font-weight: 600;
+    letter-spacing: .02em;
+}
+
+.hero-desc,
+.section-intro {
+    margin-top: 1rem;
+    max-width: 620px;
+    font-size: clamp(.92rem, 1.8vw, 1.08rem);
+    line-height: 1.85;
+    color: var(--ink-soft);
+}
+
+.section-title {
+    font-family: 'Shippori Mincho', serif;
+    font-weight: 600;
+    font-size: clamp(2.1rem, 6vw, 4.1rem);
+    line-height: 1.2;
+    letter-spacing: -.02em;
+    margin-bottom: .6rem;
+}
+
+.card-kicker {
+    font-family: 'Shippori Mincho', serif;
+    font-size: .72rem;
+    letter-spacing: .26em;
+    color: var(--accent);
+    margin-bottom: .85rem;
+}
+
+.body-text {
+    font-size: .96rem;
+    line-height: 1.9;
+    color: var(--ink-soft);
+}
+
+.body-text strong {
+    color: var(--ink);
+    font-weight: 700;
+}
+
+/* ---------------- BUTTONS ---------------- */
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .8rem;
+    margin-top: 2rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .85rem 1.35rem;
+    border-radius: 999px;
+    font-size: .82rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+    border: 1px solid transparent;
+    transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+    will-change: transform;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #101726;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .22);
+}
+
+.btn-ghost {
+    border-color: var(--card-border);
+    background: var(--card-bg);
+    color: var(--ink);
+    backdrop-filter: blur(10px);
+}
+
+/* ---------------- PAPER CARD ---------------- */
+.paper-card,
+.night-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 1.6rem;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .14);
+}
+
+.stat-big {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.stat-cap {
+    font-size: .62rem;
+    letter-spacing: .14em;
+    color: var(--accent);
+    margin-top: .15rem;
+}
+
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+.badges span {
+    padding: .38rem .7rem;
+    border-radius: 8px;
+    font-size: .72rem;
+    font-weight: 600;
+    background: rgba(214, 190, 148, .28);
+    border: 1px solid rgba(163, 133, 85, .34);
+    color: var(--ink);
+}
+
+/* ---------------- EMA PROJECT CARDS ---------------- */
+.ema {
+    position: relative;
+    display: block;
+    padding: 2.1rem 1.5rem 1.5rem;
+    min-height: 220px;
+    border-radius: 6px 6px 16px 16px;
+    background: linear-gradient(160deg, #e6cfa6 0%, #d8b98a 55%, #c8a371 100%);
+    border: 1px solid #a98555;
+    box-shadow: 0 16px 34px rgba(60, 40, 20, .26), inset 0 1px 0 rgba(255, 255, 255, .45);
+    color: #3b2b1d;
+    transform: rotate(-.5deg);
+    transition: transform .3s ease, box-shadow .3s ease;
+    will-change: transform;
+}
+
+.ema:nth-child(even) {
+    transform: rotate(.6deg);
+}
+
+.ema:hover {
+    transform: translateY(-8px) rotate(0deg);
+    box-shadow: 0 26px 46px rgba(60, 40, 20, .34), inset 0 1px 0 rgba(255, 255, 255, .5);
+}
+
+.ema__hole {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: #7b5c3b;
+    box-shadow: inset 0 2px 3px rgba(0, 0, 0, .5);
+}
+
+.ema__no {
+    font-family: 'Shippori Mincho', serif;
+    font-size: .7rem;
+    letter-spacing: .2em;
+    color: #8a6238;
+}
+
+.ema h3 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.28rem;
+    font-weight: 700;
+    margin: .5rem 0 .65rem;
+}
+
+.ema p {
+    font-size: .84rem;
+    line-height: 1.75;
+    color: #58432e;
+}
+
+.ema__link,
+.ema__tag {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: .66rem;
+    font-weight: 700;
+    letter-spacing: .16em;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #8a6238;
+}
+
+.ema__tag {
+    border-bottom-style: dashed;
+}
+
+/* ---------------- TIMELINE ---------------- */
+.timeline {
+    position: relative;
+    max-width: 780px;
+}
+
+.timeline__line {
+    position: absolute;
+    left: 19px;
+    top: 12px;
+    bottom: 12px;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(90, 110, 60, .1), rgba(90, 110, 60, .55), rgba(90, 110, 60, .1));
+}
+
+.timeline__item {
+    position: relative;
+    display: flex;
+    gap: 1.2rem;
+    margin-bottom: 1.1rem;
+}
+
+.timeline__stone {
+    flex: 0 0 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 50% 48% 52% 46%;
+    background: linear-gradient(145deg, #d8d0b6, #9a9a78);
+    border: 1px solid rgba(70, 80, 50, .3);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .18);
+    font-family: 'Shippori Mincho', serif;
+    font-size: .72rem;
+    color: #3f452f;
+    z-index: 1;
+}
+
+.timeline__card {
+    flex: 1;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 1.1rem 1.3rem;
+    backdrop-filter: blur(12px);
+}
+
+.timeline__card h3 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.timeline__meta {
+    font-size: .72rem;
+    letter-spacing: .05em;
+    color: var(--accent);
+    margin: .25rem 0 .5rem;
+}
+
+.timeline__card p:last-child {
+    font-size: .84rem;
+    line-height: 1.7;
+    color: var(--ink-soft);
+}
+
+/* ---------------- NIGHT / FOOTER ---------------- */
+.night-card {
+    max-width: 760px;
+}
+
+.path-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--card-border);
+    font-size: .68rem;
+    letter-spacing: .16em;
+}
+
+.path-footer a:hover {
+    color: var(--accent);
+}
+
+/* ---------------- PATH PROGRESS ---------------- */
+.path-nav {
+    position: fixed;
+    right: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .8rem;
+    color: #f7f2e8;
+    font-size: .6rem;
+    letter-spacing: .18em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, .6);
+}
+
+.path-nav__track {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.15rem;
+}
+
+.path-nav__track::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: rgba(255, 255, 255, .38);
+}
+
+.path-dot {
+    position: relative;
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, .6);
+    background: rgba(10, 14, 32, .4);
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+    transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+}
+
+.path-dot span {
+    font-size: .8rem;
+    opacity: 0;
+    transform: scale(.6);
+    transition: opacity .25s ease, transform .25s ease;
+}
+
+.path-dot:hover span,
+.path-dot.is-active span {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.path-dot.is-active {
+    background: rgba(240, 197, 135, .92);
+    border-color: #f0c587;
+    box-shadow: 0 0 22px rgba(240, 197, 135, .7);
+    transform: scale(1.15);
+}
+
+/* ---------------- SCROLL HINT ---------------- */
+.scroll-hint {
+    position: fixed;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .45rem;
+    font-size: .58rem;
+    letter-spacing: .3em;
+    color: rgba(255, 255, 255, .85);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, .7);
+    transition: opacity .4s ease, transform .4s ease;
+}
+
+.scroll-hint i {
+    width: 1px;
+    height: 34px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .9), transparent);
+    animation: hintDrop 1.8s ease-in-out infinite;
+}
+
+.scroll-hint.is-hidden {
+    opacity: 0;
+    transform: translate(-50%, 12px);
+    pointer-events: none;
+}
+
+@keyframes hintDrop {
+    0%, 100% { transform: scaleY(.4); transform-origin: top; opacity: .4; }
+    50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+}
+
+/* ---------------- BACK LINK ---------------- */
+.back-home {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 60;
+    padding: .55rem .85rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, .35);
+    background: rgba(10, 14, 32, .42);
+    backdrop-filter: blur(8px);
+    color: #fff;
+    font-size: .6rem;
+    letter-spacing: .12em;
+    transition: background .25s ease, transform .25s ease;
+}
+
+.back-home:hover {
+    background: rgba(255, 255, 255, .18);
+    transform: translateY(-2px);
+}
+
+/* ---------------- ANIMATED SVG BITS ---------------- */
+.ripples path {
+    animation: ripple 3.4s ease-in-out infinite;
+}
+
+.ripples path:nth-child(2) { animation-delay: .5s; }
+.ripples path:nth-child(3) { animation-delay: 1s; }
+.ripples path:nth-child(4) { animation-delay: 1.5s; }
+.ripples path:nth-child(5) { animation-delay: 2s; }
+
+@keyframes ripple {
+    0%, 100% { opacity: .25; transform: translateX(-8px); }
+    50% { opacity: .8; transform: translateX(8px); }
+}
+
+.steam path {
+    animation: steam 5s ease-in-out infinite;
+}
+
+.steam path:nth-child(2) { animation-delay: 2.2s; }
+
+@keyframes steam {
+    0%, 100% { opacity: .1; transform: translateY(10px); }
+    50% { opacity: .28; transform: translateY(-14px); }
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 768px) {
+    .story { padding: 6.5rem 0 8rem; }
+    .hero-title { font-size: clamp(2.6rem, 12vw, 4.4rem); }
+    .path-nav { right: 10px; gap: .5rem; }
+    .path-nav__label, .path-nav__count { display: none; }
+    .path-nav__track { gap: .8rem; }
+    .path-dot { width: 22px; height: 22px; }
+    .back-home { left: 12px; bottom: 12px; font-size: .52rem; }
+    .scroll-hint { bottom: 14px; }
+    .paper-card, .night-card { padding: 1.2rem; }
+    .timeline__stone { flex-basis: 34px; height: 34px; }
+    .timeline__line { left: 16px; }
+    .timeline__item { gap: .9rem; }
+}
+
+/* ---------------- REDUCED MOTION ---------------- */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .scroll-hint i, .ripples path, .steam path { animation: none; }
+    .btn, .ema, .path-dot, .back-home { transition: none; }
+}
