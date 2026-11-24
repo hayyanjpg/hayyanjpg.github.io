@@ -1118,7 +1118,33 @@ img {
 
 .tags span:first-child { border-color: var(--cyan); color: var(--cyan); }
 
-.project__actions { margin-top: 1.5rem; }
+.project__metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .45rem;
+    margin-top: .85rem;
+}
+
+.project__metrics > span {
+    display: inline-flex;
+    align-items: baseline;
+    gap: .35rem;
+    padding: .3rem .5rem;
+    border-left: 2px solid var(--cyan);
+    background: var(--bg-2);
+    color: var(--muted);
+    font-size: .58rem;
+    line-height: 1.4;
+}
+
+.project__metrics b {
+    color: var(--cyan);
+    font-family: var(--font-pixel);
+    font-size: .62rem;
+    font-weight: 400;
+}
+
+.project__actions { margin-top: 1.25rem; }
 
 /* ==========================================================
    CERTIFICATES

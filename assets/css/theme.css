@@ -311,8 +311,10 @@ body[data-skin="noir"] .bar span {
     border-radius: 2px;
 }
 
-body[data-skin="noir"] .tags span {
+body[data-skin="noir"] .tags span,
+body[data-skin="noir"] .project__metrics > span {
     border-radius: 999px;
+    border-left-width: 1px;
 }
 
 body[data-skin="noir"] .to-top {

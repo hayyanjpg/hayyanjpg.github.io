@@ -49,8 +49,8 @@
     const langBtn = $('#lang-btn');
     const typeTarget = $('#typewriter');
     const words = {
-        id: ['AI ENGINEER', 'FULL-STACK DEV', 'DATA ANALYST', 'PROBLEM SOLVER'],
-        en: ['AI ENGINEER', 'FULL-STACK DEV', 'DATA ANALYST', 'PROBLEM SOLVER']
+        id: ['AI ENGINEER', 'FULL-STACK DEV', 'RAG & LLM', 'FASTAPI + REACT'],
+        en: ['AI ENGINEER', 'FULL-STACK DEV', 'RAG & LLM', 'FASTAPI + REACT']
     };
     let lang = localStorage.getItem('hyy-lang') === 'en' ? 'en' : 'id';
     let typeTimer = null;
